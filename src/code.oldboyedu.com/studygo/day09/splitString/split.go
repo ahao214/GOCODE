@@ -11,7 +11,7 @@ func Split(str string,seq string)[]string{
 	index:=strings.Index(str,seq)
 	for index>=0{
 		ret=append(ret,str[:index])
-		str=str[index+1:]
+		str=str[index+len(seq):]
 		index=strings.Index(str,seq)
 	}
 	ret=append(ret,str)
