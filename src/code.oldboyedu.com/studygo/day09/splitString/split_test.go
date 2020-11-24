@@ -54,3 +54,29 @@ func TestSplitMap(t *testing.T){
 		})
 	}
 }
+
+//基准测试
+func BenchmarkSplit(b *testing.B){
+	for i:=0;i<b.N;i++{
+		Split("a:b:c:d:e:f:g",":")
+	}
+}
+
+//性能测试
+func benchmarkFib(b *testing.B,n int){
+	for i:=0;i<b.N;i++{
+		Fib(n)
+	}
+}
+
+func BenchmarkFib1(b *testing.B){
+	benchmarkFib(b,1)
+}
+
+func BenchmarkFib2(b *testing.B){
+	benchmarkFib(b,2)
+}
+
+func BenchmarkFib3(b *testing.B){
+	benchmarkFib(b,3)
+}
