@@ -56,6 +56,26 @@ func queryOne(id int){
 
 }
 
+//查询多条数据
+func queryMore(n int){
+	sqlStr:=`select id,name,age from user where id>?`
+	rows,err:=db.Query(sqlStr,n)
+	if err!=nil{
+		fmt.Printf("exec %s query failed,err:%v\n",sqlStr,err)
+		return
+	}
+	//一定要关闭
+	defer rows.Close()
+	//循环数据
+	for rows.Next(){
+		var u user
+		err:=rows.Scan(&u.id,&u.name,&u.age)
+		if err!=nil{
+			fmt.Printf("scan failed,err:%v\n",err)
+		}
+		fmt.Printf("u:%#v\n",u)
+	}
+}
 
 func insert(){
 
