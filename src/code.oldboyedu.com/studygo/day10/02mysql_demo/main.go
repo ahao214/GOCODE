@@ -30,6 +30,8 @@ func initDB()(err error){
 	if err!=nil{
 		return
 	}
+	//设置数据库连接池最大连接数
+	db.SetMaxOpenConns(10)
 	return
 
 }
@@ -40,8 +42,17 @@ type user struct{
 	age int
 }
 
-func query(){
-
+//查询单条数据
+func queryOne(id int){
+	var u1 user
+	//查询单条
+	sqlStr:=`select id,name,age from user where id=?`
+	//执行
+	rowObj:=db.QueryRow(sqlStr,id)
+	//获取结果
+	rowObj.Scan(&u1.id,&u1.name,&u1.age)
+	//打印结果
+	fmt.Printf("u1:%#v\n",u1)
 
 }
 
@@ -59,14 +70,6 @@ func main(){
 	}
 	fmt.Println("连接数据库成功")
 
-	var u1 user
-	//查询单条
-	sqlStr:=`select id,name,age from user where id=1`
-	//执行
-	rowObj:=db.QueryRow(sqlStr)
-	//获取结果
-	rowObj.Scan(&u1.id,&u1.name,&u1.age)
-	//打印结果
-	fmt.Printf("u1:%#v\n",u1)
+	
 	
 }
