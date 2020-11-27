@@ -133,6 +133,27 @@ func deleteRow(id int){
 }
 
 
+//预处理方式插入多条数据
+func prepareInsert(){
+	sqlStr:=`insert into user(name,age) values(?,?)`
+	stmt,err:=db.Prepare(sqlStr)
+	if err!=nil{
+		fmt.Printf("prepare failed,err:%v\n",err)
+		return
+	}
+	defer stmt.Close()
+	//后续只需要拿到stmt去执行一些操作
+	var m= map[string]int{
+		"小王子":20,
+		"公主":19,
+		"天机老人":120,
+		"天宝老道":200,
+	}
+	for k,v:=range m{
+		stmt.Exec(k,v)
+	}
+}
+
 
 func main(){
 	err:=initDB()
