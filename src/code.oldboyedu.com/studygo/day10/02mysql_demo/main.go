@@ -92,9 +92,30 @@ func insert(){
 		return
 	}
 	fmt.Println("id:",id)
-	
+
 
 }
+
+
+//更新
+func updateRow(newAge int,id int){
+	sqlStr:=`update user set age=? where id=?`
+	ret,err:=db.Exec(sqlStr,newAge,id)
+	if err!=nil{
+		fmt.Printf("update failed,err:%v\n",err)
+		return
+	}
+	n,err:=ret.RowsAffected()
+	if err!=nil{
+		fmt.Printf("get id failed,err:%v\n",err)
+		return
+	}
+	fmt.Printf("更新了%d行数据\n",n)
+
+}
+
+
+
 
 func main(){
 	err:=initDB()
