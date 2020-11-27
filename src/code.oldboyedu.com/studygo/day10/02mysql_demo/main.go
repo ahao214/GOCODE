@@ -77,8 +77,22 @@ func queryMore(n int){
 	}
 }
 
+//插入
 func insert(){
-
+	sqlStr:=`insert into user(name,age) values("李二",25)`
+	ret,err:=db.Exec(sqlStr)
+	if err!=nil{
+		fmt.Printf("insert failed,err:%v\n",err)
+		return
+	}
+	//如果是插入数据的操作，能够拿到插入数据的的ID
+	id,err:=ret.LastInsertId()
+	if err!=nil{
+		fmt.Printf("get id failed,err:%v\n",err)
+		return
+	}
+	fmt.Println("id:",id)
+	
 
 }
 
