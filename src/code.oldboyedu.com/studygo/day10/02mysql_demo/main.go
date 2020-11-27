@@ -115,6 +115,23 @@ func updateRow(newAge int,id int){
 }
 
 
+//删除
+func deleteRow(id int){
+	sqlStr:=`delete from user where id=?`
+	ret,err:=db.Exec(sqlStr,id)
+	if err!=nil{
+		fmt.Printf("delete failed,err:%v\n",err)
+		return
+	}
+	n,err:=ret.RowsAffected()
+	if err!=nil{
+		fmt.Printf("get id failed,err:%v\n",err)
+		return
+	}
+	fmt.Printf("更新了%d行数据\n",n)
+
+}
+
 
 
 func main(){
