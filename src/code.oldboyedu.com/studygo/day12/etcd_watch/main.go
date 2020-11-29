@@ -32,7 +32,7 @@ func main(){
 	//从通道尝试取值
 	for wresp:=range ch{
 		for _,evt:=range wresp.Events{
-			fmt.Printf("Type:%v key:%v value:%v\n",evt.Type,evt.Kv.Key,evt.Kv.Value)
+			fmt.Printf("Type:%v key:%v value:%v\n",evt.Type,string(evt.Kv.Key),string(evt.Kv.Value))
 
 		}
 	}
