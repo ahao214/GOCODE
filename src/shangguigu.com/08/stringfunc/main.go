@@ -2,6 +2,7 @@ package main
 
 import(
 	"fmt"	
+	"strings"
 )
 
 func main(){
@@ -13,5 +14,13 @@ func main(){
 		fmt.Printf("字符=%v\n",newStr[i])
 	}
 
+	index:=strings.Index("abcd","a")
+	fmt.Println(index)
+	lastIndex:=strings.LastIndex("go golang","go")
+	fmt.Println(lastIndex)
+
+	strArr:=strings.Split("hello world,go,ok",",")
+	fmt.Println(strArr)
+	
 
 }
