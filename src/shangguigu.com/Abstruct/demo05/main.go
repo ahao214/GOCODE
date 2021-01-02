@@ -31,4 +31,9 @@ func main(){
 	b.A.Say()
 	b.A.hello()
 
+	//上面的写法可以简化为下面的写法
+	b.Name="kevin"
+	b.age=20
+	b.Say()
+	b.hello()
 }
