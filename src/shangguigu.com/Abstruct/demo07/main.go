@@ -24,6 +24,18 @@ type TV2 struct{
 	*Brand
 }
 
+
+type Monster struct{
+	Name string
+	Age int
+}
+
+type E struct{
+	Monster
+	int 
+	n int
+}
+
 func main(){
 	tv:=TV{
 		Goods{"电视001",3000.09},
@@ -56,6 +68,11 @@ func main(){
 	}
 	fmt.Println("TV3=",*tv3.Goods,*tv3.Brand)
 
-
+	var e E
+	e.Name="牛魔王"
+	e.Age=300
+	e.int=20
+	e.n=30
+	fmt.Println("e=",e)
 
 }
