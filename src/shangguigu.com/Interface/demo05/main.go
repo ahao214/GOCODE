@@ -4,6 +4,9 @@ import(
 	"fmt"
 )
 
+type Student struct{
+	
+}
 
 func TypeJudge(items... interface{}){
 	for index,x:=range items{
