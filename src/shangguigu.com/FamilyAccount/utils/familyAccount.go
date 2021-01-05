@@ -27,20 +27,22 @@ type FamilyAccount struct{
 
 //编写要给工厂模式的构造方法，返回一个*FamilyAccount实例
 func NewFamilyAccount() *FamilyAccount{
-	key:"",
-	loop:true,
-	balance:10000.0,
-	money:0.0,
-	note:"",
-	flag:false,
-	detail:"收支\t账户金额\t收支金额\t说	明"
+	return &FamilyAccount{
+		key:"",
+		loop:true,
+		balance:10000.0,
+		money:0.0,
+		note:"",
+		flag:false,
+		detail:"收支\t账户金额\t收支金额\t说	明",
+	}
 }
 
 //将显示明细写成一个方法
 func(this *FamilyAccount)showDetail(){
 	fmt.Println("---当前收支明细记录---")
 	if this.flag{
-		fmt.Println(detail)
+		fmt.Println(this.detail)
 	}else{
 		fmt.Println("当前没有收支明细，来一笔吧!")
 	}
