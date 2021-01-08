@@ -30,12 +30,71 @@ func(this *customerView)list(){
 //得到用户的输入信息，构建新的客户，并完成添加
 func(this *customerView)add(){
 	fmt.Println("------添加客户------")
+	fmt.Println("姓名：")
+	name:=""
+	fmt.Scanln(&name)
+	fmt.Println("性别：")
+	gender:=""
+	fmt.Scanln(&gender)
+	fmt.Println("年龄：")
+	age:=0
+	fmt.Scanln(&age)
+	fmt.Println("电话：")
+	phone:=""
+	fmt.Scanln(&phone)
+	fmt.Println("电邮：")
+	email:=""
+	fmt.Scanln(&email)
 
-
-
-	fmt.Println("------添加客户完成------")
+	//构建一个新的Customer实例
+	//注意：Id号，没有让用户输入，id是唯一的，需要系统分配
+	customer:=model.NewCustomer2(name,gender,age,phone,email)
+	//调用
+	if this.customerService.Add(customer){
+		fmt.Println("------添加完成------")
+	}else{
+		fmt.Println("------添加失败------")
+	}
 }
 
+//得到用户的输入id，删除该id对应的客户
+func(this *customerView)delete(){
+	fmt.Println("------删除客户------")
+	fmt.Println("请选择带删除客户编号(-1退出)")
+	id:=-1
+	fmt.Scanln(&id)
+	if id==-1{
+		return 	//放弃删除操作
+	}
+
+	choice:=""
+	fmt.Scanln(&choice)
+	if choice=="y" || choice=="Y"{
+		//调用customerService的Delete方法
+		if this.customerService.Delete(id){
+			fmt.Println("------删除成功------")
+		}else{
+			fmt.Println("------删除失败，输入的id号不存在------")
+		}
+	}
+}
+
+
+//退出软件
+func(this *customerView)exit(){
+	fmt.Println("确认是否退出(Y/N):")
+	for{
+		fmt.Scanln(&this.key)
+		if this.key=="Y" || this.key=="y" || this.key=="N" ||this.key=="n"{
+			break
+		}
+		fmt.Println("你的输入有误，确认是否退出(Y/N):")
+	}
+	if this.key=="y" || this.key=="Y"{
+		this.loop=false
+	}
+
+}
 
 
 //显示主菜单
