@@ -25,7 +25,7 @@ func intersect(nums1 [4] int,nums2 [5] int)[]int{
 }
 
 //两个数组的交集,排序好的数据
-func intersect2(nums1 []int,nums2[]int)[]int{
+func intersect2(nums1[]int,nums2[]int)[]int{
 	i,j,k:=0,0,0
 	sort.Ints(nums1)
 	sort.Ints(nums2)
