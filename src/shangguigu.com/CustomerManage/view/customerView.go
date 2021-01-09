@@ -3,6 +3,7 @@ package main
 import(
 	"fmt"
 	"shangguigu.com/CustomerManage/service"
+	"shangguigu.com/CustomerManage/model"
 )
 
 type customerView struct{
@@ -74,7 +75,7 @@ func(this *customerView)delete(){
 		if this.customerService.Delete(id){
 			fmt.Println("------删除成功------")
 		}else{
-			fmt.Println("------删除失败，输入的id号不存在------")
+			fmt.Println("------删除失败，输入的Id号不存在------")
 		}
 	}
 }
@@ -111,15 +112,15 @@ func(this *customerView)mainMenu(){
 		fmt.Scanln(&this.key)
 		switch this.key{
 		case "1":
-			fmt.Println("添加客户")
+			this.add()
 		case "2":
 			fmt.Println("修改客户")
 		case "3":
-			fmt.Println("删除客户")
+			this.delete()
 		case "4":
-			fmt.Println("客户列表")
+			this.list()
 		case "5":
-			this.loop=false
+			this.exit()
 		default:
 			fmt.Println("输入错误，请重新输入")
 		}	

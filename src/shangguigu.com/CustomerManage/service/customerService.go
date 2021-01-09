@@ -29,7 +29,7 @@ func(this *CustomerService) List()[]model.Customer{
 }
 
 
-//添加客户到customer切片
+//添加客户到customers切片
 func(this *CustomerService)Add(customer model.Customer)bool{
 	this.customerNum++
 	customer.Id=this.customerNum
@@ -45,7 +45,7 @@ func(this *CustomerService)Delete(id int)bool{
 		return false
 	}
 	//如何从切片中删除一个元素
-	//this.customers = append(this.customers[:index],this.customers[index+1:]...)
+	this.customers = append(this.customers[:index],this.customers[index+1:]...)
 	return true
 }
 
