@@ -52,4 +52,9 @@ func main(){
 	res:=intersect(nums1,nums2)
 	fmt.Println(res)
 
+	numone:=[]int{2,0,8,97,31}
+	numtwo:=[]int{8,1,9,10,14,0,9}
+	result:=intersect2(numone,numtwo)
+	fmt.Println(result)
+
 }
