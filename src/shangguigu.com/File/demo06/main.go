@@ -6,17 +6,19 @@ import (
 	"os"
 )
 
-//写文件操作
 func main() {
+	//打开一个已经存在的文件，向文件里面追加内容"abc,vipkid"
+
 	filePath := "f:/one.txt"
-	file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
+	//O_APPEND 将内容追加到文件里面
+	file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Printf("open file err=", err)
 		return
 	}
 	defer file.Close()
 
-	str := "hello,go语言\r\n" //\r\n表示换行
+	str := "abc,kidvip\r\n" //\r\n表示换行
 	//写入时，使用带缓存的*Writer
 	writer := bufio.NewWriter(file)
 	for i := 0; i < 5; i++ {
