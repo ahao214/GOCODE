@@ -2,5 +2,34 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/766b/go-outliner" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/Shopify/sarama" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/cespare/xxhash" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/davecgh/go-spew" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/derekparker/delve" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/dgryski/go-rendezvous" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/eapache/go-resiliency" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/eapache/go-xerial-snappy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/eapache/queue" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/go-delve/delve" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/go-redis/redis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/go-sql-driver/mysql" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/golang/lint" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/golang/snappy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/hpcloud/tail" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jcmturner/gofork" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jmoiron/sqlx" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/lukehoban/go-outline" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/newhook/go-symbols" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/nsf/gocode" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/pierrec/lz4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/rcrowley/go-metrics" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/rogpeppe/godef" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/sqs/goreturns" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/crypto" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/lint" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/sys" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/text" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/tools" vcs="Git" />
   </component>
 </project>
