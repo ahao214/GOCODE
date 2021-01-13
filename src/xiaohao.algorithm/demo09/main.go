@@ -16,11 +16,9 @@ func climbStairs(n int) int {
 		dp[i] = dp[i-1] + dp[i-2]
 	}
 	return dp[n]
-
 }
 
 func main() {
 	n := 12
 	fmt.Println(climbStairs(n))
-
 }
