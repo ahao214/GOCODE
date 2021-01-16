@@ -11,7 +11,7 @@ func main() {
 	fmt.Println(writeChan)
 
 	//声明管道为只读
-	var readChan <-chan int
-	num := <-readChan
-	fmt.Println(num)
+	//var readChan <-chan int
+	//num := <-readChan
+	//fmt.Println(num)
 }
