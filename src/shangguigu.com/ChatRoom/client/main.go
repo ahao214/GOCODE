@@ -15,7 +15,7 @@ func main() {
 	//判断是否还继续显示菜单
 	var loop = true
 
-	for {
+	for loop {
 		fmt.Println("------欢迎登录多人聊天系统------")
 		fmt.Println("\t\t\t 1 登录聊天室")
 		fmt.Println("\t\t\t 2 注册用户")
@@ -43,6 +43,7 @@ func main() {
 		//说明用户要登录
 		fmt.Println("请输入用户的ID：")
 		fmt.Scanf("%d\n", &userId)
+
 		fmt.Println("请输入用户的密码；")
 		fmt.Scanf("%s\n", userPwd)
 
