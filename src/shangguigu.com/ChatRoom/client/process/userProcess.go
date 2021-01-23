@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/tools/go/ssa/interp/testdata/src/os"
 	"net"
 	"shangguigu.com/ChatRoom/client/utils"
 	"shangguigu.com/ChatRoom/common/message"
@@ -15,7 +16,6 @@ type UserProcess struct {
 }
 
 //关联一个用户登录的方法
-
 //写一个函数，完成登录校验
 func (this *UserProcess) Login(userId int, userPwd string) (err error) {
 	//开始定协议
@@ -107,8 +107,77 @@ func (this *UserProcess) Login(userId int, userPwd string) (err error) {
 		for {
 			ShowMenu()
 		}
-	} else if loginResMes.Code == 500 {
+	} else {
 		fmt.Println(loginResMes.Error)
+	}
+	return
+}
+
+//注册函数
+func (this *UserProcess) Register(userId int, userPwd string, userName string) (err error) {
+	//1.链接到服务器
+	conn, err := net.Dial("tcp", "localhost:8889")
+	if err != nil {
+		fmt.Println("net.Dial err=", err)
+		return
+	}
+
+	//延时关闭
+	defer conn.Close()
+
+	//2.准备通过conn发送消息给服务器
+	var mes message.Message
+	mes.Type = message.RegisterMesType
+
+	//3.创建一个RegisterMes 结构体
+	var registerMes message.RegisterMes
+	registerMes.User.UserId = userId
+	registerMes.User.UserPwd = userPwd
+	registerMes.User.UserName = userName
+
+	//4.将registerMes序列化
+	data, err := json.Marshal(registerMes)
+	if err != nil {
+		fmt.Println("json.Marshal err=", err)
+		return
+	}
+
+	//5.把data赋给了mes.Data字段
+	mes.Data = string(data)
+
+	//6.将mes序列化
+	data, err = json.Marshal(mes)
+	if err != nil {
+		fmt.Println("json.Marshal err=", err)
+		return
+	}
+
+	//创建一个transfer实例
+	tf := &utils.Transfer{
+		Conn: conn,
+	}
+	//发送data给服务器端
+	err = tf.WritePkg(data)
+	if err != nil {
+		fmt.Println("发送信息错误,err:", err)
+	}
+
+	mes, err = tf.ReadPkg() //mes 就是
+	if err != nil {
+		fmt.Println("ReadPkg er=", err)
+		return
+	}
+
+	//将mes.Data 反序列化成RegisterResMes
+	var registerResMes message.RegisterResMes
+	err = json.Unmarshal([]byte(mes.Data), &registerResMes)
+
+	if registerResMes.Code == 200 {
+		fmt.Println("注册成功，可以重新登录")
+		os.Exit(0)
+	} else {
+		fmt.Println(registerResMes.Error)
+		os.Exit(0)
 	}
 	return
 }
