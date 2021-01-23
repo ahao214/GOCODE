@@ -1,15 +1,23 @@
-package main
+package process
 
 import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"net"
+	"shangguigu.com/ChatRoom/client/utils"
 	"shangguigu.com/ChatRoom/common/message"
 )
 
+type UserProcess struct {
+	//字段
+
+}
+
+//关联一个用户登录的方法
+
 //写一个函数，完成登录校验
-func login(userId int, userPwd string) (err error) {
+func (this *UserProcess) Login(userId int, userPwd string) (err error) {
 	//开始定协议
 
 	//fmt.Printf(" userId = %d userPwd = %s\n", userId, userPwd)
@@ -76,9 +84,12 @@ func login(userId int, userPwd string) (err error) {
 	}
 
 	//这里还需要处理服务器端返回的消息
-	mes, err = readPkg(conn) //mes 就是
+	tf := &utils.Transfer{
+		Conn: conn,
+	}
+	mes, err = tf.ReadPkg() //mes 就是
 	if err != nil {
-		fmt.Println("readPkg er=", err)
+		fmt.Println("ReadPkg er=", err)
 		return
 	}
 	//将mes.Data 反序列化成LoginResMes
@@ -87,6 +98,15 @@ func login(userId int, userPwd string) (err error) {
 
 	if loginResMes.Code == 200 {
 		fmt.Println("登录成功")
+		//这里我们还需要在客户端启动一个协程
+		//该协程保持和服务器端的通讯，如果服务器有数据推送给客户端
+		//则接收并显示在客户端的终端
+		go ServerProcessMes(conn)
+
+		//显示登录成功后的菜单[循环显示]
+		for {
+			ShowMenu()
+		}
 	} else if loginResMes.Code == 500 {
 		fmt.Println(loginResMes.Error)
 	}

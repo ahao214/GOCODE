@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"shangguigu.com/ChatRoom/common/message"
+	"shangguigu.com/ChatRoom/server/model"
 	"shangguigu.com/ChatRoom/server/utils"
 )
 
@@ -30,16 +31,26 @@ func (this *UserProcess) ServerProcessLogin(mes *message.Message) (err error) {
 	//在声明一个loginResMes
 	var loginResMes message.LoginResMes
 
-	//如果用户的id=100 密码等于123456，则是正确，否则不合法
-	if loginMes.UserId == 100 && loginMes.UserPwd == "123456" {
-		//合法
-		loginResMes.Code = 200
+	//我们需要到redis数据库完成验证
+	//1.使用model.MyUserDao到redis验证
+	user, err := model.MyUserDao.Login(loginMes.UserId, loginMes.UserPwd)
 
+	if err != nil {
+		loginResMes.Code = 500
 	} else {
-		//不合法
-		loginResMes.Code = 500 //500 表示该用户不存在
-		loginResMes.Error = "该用户不存在，请先注册，在使用"
+		loginResMes.Code = 200
+		fmt.Println(user, "登录成功")
 	}
+	////如果用户的id=100 密码等于123456，则是正确，否则不合法
+	//if loginMes.UserId == 100 && loginMes.UserPwd == "123456" {
+	//	//合法
+	//	loginResMes.Code = 200
+	//
+	//} else {
+	//	//不合法
+	//	loginResMes.Code = 500 //500 表示该用户不存在
+	//	loginResMes.Error = "该用户不存在，请先注册，在使用"
+	//}
 	//将loginResMes 序列化
 	data, err := json.Marshal(loginResMes)
 	if err != nil {

@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net"
+	"shangguigu.com/ChatRoom/server/model"
+	"time"
 )
 
 //func readPkg(conn net.Conn)(mes message.Message,err error)  {
@@ -134,7 +136,19 @@ func processTo(conn net.Conn) {
 	}
 }
 
+//编写一个函数，完成对userDao的初始化
+func initUserDao() {
+	//这里的pool本身就是一个全局变量
+	//这里需要注意一个初始化顺序
+	//先initPool,然后在initUserDao
+	model.MyUserDao = model.NewUserDao(pool)
+
+}
+
 func main() {
+	//当服务器启动时，我们就初始化redis链接池
+	initPool("localhost:6379", 16, 0, time.Second)
+	initUserDao()
 	//提示信息
 	fmt.Println("服务器在8889端口监听...")
 	listen, err := net.Listen("tcp", "0.0.0.0:8889")
