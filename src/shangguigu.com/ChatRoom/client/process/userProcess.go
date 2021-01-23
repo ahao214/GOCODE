@@ -4,8 +4,8 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
-	"golang.org/x/tools/go/ssa/interp/testdata/src/os"
 	"net"
+	"os"
 	"shangguigu.com/ChatRoom/client/utils"
 	"shangguigu.com/ChatRoom/common/message"
 )
