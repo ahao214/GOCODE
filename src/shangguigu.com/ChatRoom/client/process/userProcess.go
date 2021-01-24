@@ -97,7 +97,27 @@ func (this *UserProcess) Login(userId int, userPwd string) (err error) {
 	err = json.Unmarshal([]byte(mes.Data), &loginResMes)
 
 	if loginResMes.Code == 200 {
-		fmt.Println("登录成功")
+		//初始化CurUser
+		curUser.Conn = conn
+		curUser.UserId = userId
+		curUser.UserStatus = message.UserOnline
+
+		//可以显示一下当前在线用户的列表，遍历loginResMes.UsersId
+		fmt.Println("当前在线用户列表如下：")
+		for _, v := range loginResMes.UsersId {
+			//如果我们要求不显示自己在线，增加一个代码
+			if v == userId {
+				continue
+			}
+			fmt.Println("用户id\t", v)
+			//完成客户端的onlineUsers 完成初始化
+			user := &message.User{
+				UserId:     v,
+				UserStatus: message.UserOnline,
+			}
+			onlineUsers[v] = user
+		}
+		fmt.Print("\n\n")
 		//这里我们还需要在客户端启动一个协程
 		//该协程保持和服务器端的通讯，如果服务器有数据推送给客户端
 		//则接收并显示在客户端的终端

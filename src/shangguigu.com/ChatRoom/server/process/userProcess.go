@@ -12,6 +12,55 @@ import (
 type UserProcess struct {
 	//字段
 	Conn net.Conn
+	//增加一个字段，表示该Conn是哪个用户
+	UserId int
+}
+
+//编写通知所有在线的用户的方法
+//userId 要通知其他在线用户，我上线了
+func (this *UserProcess) NotifyOthersOnlineUser(userId int) {
+	//遍历onlineUsers,然后一个一个发送NotifyUserStatusMes
+	for id, up := range userMgr.onlineUsers {
+		//过滤掉自己
+		if id == userId {
+			continue
+		}
+		//开始通知
+		up.NotifyMeOnline(userId)
+	}
+}
+
+func (this *UserProcess) NotifyMeOnline(userId int) {
+	//组装我们的NotifyUserStatusMes
+	var mes message.Message
+	mes.Type = message.NotifyUserStatusMesType
+	var notifyUserStatusMes message.NotifyUserStatusMes
+	notifyUserStatusMes.UserId = userId
+	notifyUserStatusMes.Status = message.UserOnline
+	//将notifyUserStatusMes序列化
+	data, err := json.Marshal(notifyUserStatusMes)
+	if err != nil {
+		fmt.Println("json.Marshal err:", err)
+		return
+	}
+	//将序列化后的notifyUserStatusMes赋给mes.Data
+	mes.Data = string(data)
+
+	//对mes再次序列化,准备发送
+	data, err = json.Marshal(mes)
+	if err != nil {
+		fmt.Println("json.Marshal err:", err)
+		return
+	}
+	//发送 创建Transfer实例
+	tf := &utils.Transfer{
+		Conn: this.Conn,
+	}
+	err = tf.WritePkg(data)
+	if err != nil {
+		fmt.Println("NotifyMeOnline err:", err)
+		return
+	}
 }
 
 //编写一个ServerProcessLogin函数，专门处理登录
@@ -48,18 +97,20 @@ func (this *UserProcess) ServerProcessLogin(mes *message.Message) (err error) {
 		}
 	} else {
 		loginResMes.Code = 200
+		//这里因为用户已经登录成功，我们就把该登录成功的用户放入到userMgr中
+		//将登录成功的用户的userid 赋给this
+		this.UserId = loginMes.UserId
+		userMgr.AddOnlineUsers(this)
+		//通知其他的在线用户，我上线了
+		this.NotifyOthersOnlineUser(loginMes.UserId)
+		//将当前在线用户的id放入到loginResMes.UsersId
+		//遍历userMgr.onlineUsers
+		for id, _ := range userMgr.onlineUsers {
+			loginResMes.UsersId = append(loginResMes.UsersId, id)
+		}
 		fmt.Println(user, "登录成功")
 	}
-	////如果用户的id=100 密码等于123456，则是正确，否则不合法
-	//if loginMes.UserId == 100 && loginMes.UserPwd == "123456" {
-	//	//合法
-	//	loginResMes.Code = 200
-	//
-	//} else {
-	//	//不合法
-	//	loginResMes.Code = 500 //500 表示该用户不存在
-	//	loginResMes.Error = "该用户不存在，请先注册，在使用"
-	//}
+
 	//将loginResMes 序列化
 	data, err := json.Marshal(loginResMes)
 	if err != nil {
