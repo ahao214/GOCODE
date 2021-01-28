@@ -59,6 +59,27 @@ func InsertHeroNodeByNo(head *HeroNode, newHero *HeroNode) {
 
 }
 
+func DeleteHero(head *HeroNode, id int) {
+	temp := head
+	flag := false
+	//找到要删除的结点，和temp的下一个结点的no比较
+	for {
+		if temp.next == nil { //表示到链表的最后
+			break
+		} else if temp.next.no == id {
+			//说明我们找到了
+			flag = true
+			break
+		}
+		temp = temp.next
+	}
+	if flag { //确实找到了
+		temp.next = temp.next.next
+	} else {
+		fmt.Println("你要删除的id不存在")
+	}
+}
+
 //显示链表的所有结点信息
 func ListHeroNode(head *HeroNode) {
 	//创建一个辅助结点
@@ -110,5 +131,9 @@ func main() {
 	InsertHeroNodeByNo(head, hero2)
 
 	//显示
+	ListHeroNode(head)
+	fmt.Println()
+	//删除
+	DeleteHero(head, 2)
 	ListHeroNode(head)
 }
