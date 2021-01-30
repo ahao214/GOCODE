@@ -63,9 +63,55 @@ func ShowBoy(first *Boy) {
 	}
 }
 
+//startNum 表示从第几个小孩开始数
+//countNum 表示数几下
+func PlayGame(first *Boy, startNum int, countNum int) {
+	//空的链表，单独处理一下
+	if first.Next == nil {
+		fmt.Println("空的链表，没有小孩")
+		return
+	}
+	//startNum要小于等于小孩的总数
+
+	//需要定义一个辅助指针，帮助我们删除一个小孩
+	tail := first
+	for {
+		if tail.Next == first { //说明tail到了最后的小孩
+			break
+		}
+		tail = tail.Next
+	}
+
+	//让first移动到startNo [后面删除小孩的时候，就以first为准]
+	for i := 1; i <= startNum-1; i++ {
+		first = first.Next
+		tail = tail.Next
+	}
+	fmt.Println()
+	//开始数countNum，然后就删除first指向的小孩
+	for {
+		//开始数countNum-1
+		for i := 1; i <= countNum-1; i++ {
+			first = first.Next
+			tail = tail.Next
+		}
+		fmt.Printf("小孩编号是：%d的出圈\n", first.No)
+		//删除first指向的小孩
+		first = first.Next
+		tail.Next = first
+		//如果 tail=first 说明圈中只有一个小孩 留下这个小孩
+		if tail == first {
+			break
+		}
+	}
+	fmt.Printf("最后出圈的小孩编号：%d \n", first.No)
+}
+
 //约瑟夫问题
 func main() {
 	first := AddBoy(5)
 	//显示小孩
 	ShowBoy(first)
+
+	PlayGame(first, 2, 3)
 }
