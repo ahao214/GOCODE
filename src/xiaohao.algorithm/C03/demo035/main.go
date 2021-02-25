@@ -14,8 +14,13 @@ func numRescueBoats(people []int, limit int) int {
 	res := 0
 	i, j := 0, len(people)-1
 	for i <= j {
+		if i == j {
+			res++
+			return res
+		}
 		if people[i]+people[j] <= limit {
 			i++
+			j--
 		} else {
 			j--
 		}
@@ -25,7 +30,7 @@ func numRescueBoats(people []int, limit int) int {
 }
 
 func main() {
-	people := []int{1, 2, 3, 4}
-	limit := 5
+	people := []int{1, 2}
+	limit := 3
 	fmt.Println(numRescueBoats(people, limit))
 }
