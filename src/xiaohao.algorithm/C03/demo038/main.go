@@ -1,6 +1,15 @@
 package main
 
-func unniquePaths(m int, n int) int {
+import "fmt"
+
+//不同路径
+func main() {
+	m, n := 3, 3
+	res := uniquePaths(m, n)
+	fmt.Println(res)
+}
+
+func uniquePaths(m int, n int) int {
 	dp := make([][]int, m)
 	for i := 0; i < m; i++ {
 		dp[i] = make([]int, n)
@@ -17,9 +26,4 @@ func unniquePaths(m int, n int) int {
 		}
 	}
 	return dp[m-1][n-1]
-}
-
-//不同路径
-func main() {
-
 }
