@@ -6,3 +6,6 @@ package main
 //输入：s = "aaabb", k = 3
 //输出：3
 //解释：最长子串为 "aaa" ，其中 'a' 重复了 3 次。
+func main() {
+
+}
