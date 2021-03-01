@@ -34,6 +34,22 @@ func threeSumClosest(nums []int, target int) int {
 	}
 	return res
 }
+
+func threeSumClosestBL(nums []int, target int) int {
+	res, diff := 0, math.MaxInt16
+	for i := 0; i < len(nums); i++ {
+		for j := i + 1; j < len(nums); j++ {
+			for k := j + 1; k < len(nums); k++ {
+				if abs(nums[i]+nums[j]+nums[k]-target) < diff {
+					diff = abs(nums[i] + nums[j] + nums[k] - target)
+					res = nums[i] + nums[j] + nums[k]
+				}
+			}
+		}
+	}
+	return res
+}
+
 func abs(a int) int {
 	if a > 0 {
 		return a
@@ -44,4 +60,5 @@ func main() {
 	nums := []int{-1, 2, 1, -4}
 	target := 1
 	fmt.Println(threeSumClosest(nums, target))
+	fmt.Println(threeSumClosestBL(nums, target))
 }
