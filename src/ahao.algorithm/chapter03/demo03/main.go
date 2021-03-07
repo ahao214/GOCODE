@@ -30,6 +30,20 @@ func PrintTreeLayer(root *gotype.BNode) {
 	}
 }
 
+func printAtLevel(root *gotype.BNode, level int) int {
+	if root == nil || level < 0 {
+		return 0
+	} else if level == 0 {
+		fmt.Println(root.Data)
+		return 1
+	} else {
+		//把打印根结点level层的结点转换为求解根结点的孩子结点的level-1
+		//层的结点
+		return printAtLevel(root.LeftChild, level-1) + printAtLevel(root.RightChild, level-1)
+	}
+
+}
+
 //从顶部开始逐层打印二叉树结点数据
 func main() {
 	data := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
