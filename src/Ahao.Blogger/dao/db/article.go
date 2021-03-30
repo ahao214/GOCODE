@@ -7,7 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func InsertArtilce(article *model.ArticleDetail) (articleId int64, err error) {
+func InsertArticle(article *model.ArticleDetail) (articleId int64, err error) {
 	if article == nil {
 		err = fmt.Errorf("invalid article parameter")
 		return
