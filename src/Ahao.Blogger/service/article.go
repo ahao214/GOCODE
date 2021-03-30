@@ -4,7 +4,6 @@ import (
 	"Ahao.Blogger/dao/db"
 	"Ahao.Blogger/model"
 	"fmt"
-	"math"
 )
 
 func GetArticleRecordList(pageNum, pageSize int) (articleRecordList []*model.ArticleRecord, err error) {
