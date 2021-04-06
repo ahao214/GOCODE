@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzun/gorm"
-	"shangguigu.com/Method/demo11/model"
 )
 
 type User struct {
@@ -70,4 +70,33 @@ func main() {
 	_ = db.Create(&t).Error
 
 	defer db.Close()
+	r := gin.Default()
+	r.POST("/student", func(c *gin.Context) {
+		var student Student
+		_ = c.BindJSON(&student)
+		db.Create(student)
+	})
+
+	r.GET("/student/:ID", func(c *gin.Context) {
+		id := c.Param("ID")
+		var student Student
+		_ = c.BindJSON(&student)
+		db.Preload("Teachers").Preload("IDCard").First(&student, "id=?", id)
+		c.JSON(200, gin.H{
+			"s": student,
+		})
+	})
+
+	r.GET("/class/:ID", func(c *gin.Context) {
+		id := c.Param("ID")
+		var class Class
+		_ = c.BindJSON(&class)
+		db.Preload("Students").Preload("Students.Teachers").Preload("Students.IDCard").First(&class, "id=?", id)
+		c.JSON(200, gin.H{
+			"c": class,
+		})
+
+	})
+
+	r.Run(":8080")
 }
