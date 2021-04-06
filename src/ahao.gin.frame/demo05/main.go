@@ -14,7 +14,7 @@ type HelloWorld struct {
 }
 
 func main() {
-	db, err := db.Open("mysql", "root:Aa@123/ginclass?charset=utf8mb4&parseTime=True&loc=local")
+	db, err := gorm.Open("mysql", "root:Aa@123/ginclass?charset=utf8mb4&parseTime=True&loc=local")
 	if err != nil {
 		panic(err)
 	}
