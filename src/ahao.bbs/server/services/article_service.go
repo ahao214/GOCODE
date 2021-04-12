@@ -302,25 +302,25 @@ func (s *articleService) ScanDescWithDate(dateFrom, dateTo int64, callback func(
 }
 
 //rss
-func (s *articleService)GenerateRss  {
-	articles:=repositories.ArticleRepository.Find(simple.DB(),
-		simple.NewSqlCnd().Where("status = ?",constants.StatusOK).Desc("id").Limit(200))
+func (s *articleService) GenerateRss() {
+	articles := repositories.ArticleRepository.Find(simple.DB(),
+		simple.NewSqlCnd().Where("status = ?", constants.StatusOK).Desc("id").Limit(200))
 	var itmes []*feeds.Item
-	for _,article :=range articles{
-		articleUrl:=urls.ArticleUrl(article.Id)
-		user:=cache.UserCache.Get(article.UserId)
-		if user ==nil{
+	for _, article := range articles {
+		articleUrl := urls.ArticleUrl(article.Id)
+		user := cache.UserCache.Get(article.UserId)
+		if user == nil {
 			continue
 		}
-		description:=common.GetSummary(article.ContentType,article.Content)
-		item:=&feeds.Item{
+		description := common.GetSummary(article.ContentType, article.Content)
+		item := &feeds.Item{
 			Title:       article.Title,
 			Link:        &feeds.Link{Href: articleUrl},
 			Description: description,
 			Author:      &feeds.Author{Name: user.Avatar, Email: user.Email.String},
 			Created:     date.FromTimestamp(article.CreateTime),
 		}
-		items=append(items,item)
+		items = append(items, item)
 	}
 	siteTitle := cache.SysConfigCache.GetValue(constants.SysConfigSiteTitle)
 	siteDescription := cache.SysConfigCache.GetValue(constants.SysConfigSiteDescription)
@@ -346,6 +346,7 @@ func (s *articleService)GenerateRss  {
 		_ = simple.WriteString(path.Join(config.Instance.StaticPath, "rss.xml"), rss, false)
 	}
 }
+
 //浏览数+1
 func (s *articleService) IncrViewCount(articleId int64) {
 	simple.DB().Exec("update t_article set view_count = view_count + 1 where id = ?", articleId)
