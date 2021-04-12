@@ -11,7 +11,6 @@ import (
 	"ahao.bbs/server/model"
 	"ahao.bbs/server/repositories"
 )
-)
 
 type tagCache struct {
 	cache cache.LoadingCache // 标签缓存
