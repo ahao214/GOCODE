@@ -1,10 +1,14 @@
 package baiduai
 
 import (
+	"ahao.bbs/server/common/markdown"
 	"ahao.bbs/server/config"
 	"ahao.bbs/server/model/constants"
+	"encoding/json"
+	"github.com/mlogclub/simple"
 	"github.com/mlogclub/simple/date"
 	"golang.org/x/tools/go/ssa/interp/testdata/src/errors"
+	"strings"
 	"sync"
 )
 
@@ -41,6 +45,100 @@ func (a *ai) GetToken() string {
 		a.accessTokenCreateTime = date.NowTimestamp()
 	}
 	return a.accessToken
+}
+
+func (a *ai) GetTags(title, content string) *AiTags {
+	if title == "" || content == "" {
+		return nil
+	}
+	data := make(map[string]interface{})
+	data["title"] = title
+	data["content"] = simple.Substr(content, 0, 10000)
+
+	bytesData, err := json.Marshal(data)
+	if err != nil {
+		return nil
+	}
+	url := "https://aip.baidubce.com/rpc/2.0/nlp/v1/keyword?charset=UTF-8&access_token=" + a.GetToken()
+	response, err := resty.New().R().SetBody(string(bytesData)).Post(url)
+	if err != nil {
+		return nil
+	}
+	tags := &AiTags{}
+	err = json.Unmarshal(response.Body(), tags)
+	if err != nil {
+		return nil
+	}
+	return tags
+}
+
+func (a *ai) GetCategories(title, content string) *AiCategories {
+	if title == "" || content == "" {
+		return nil
+	}
+	data := make(map[string]interface{})
+	data["title"] = title
+	data["content"] = simple.Substr(content, 0, 10000)
+
+	bytesData, err := json.Marshal(data)
+	if err != nil {
+		return nil
+	}
+	url := "https://aip.baidubce.com/rpc/2.0/nlp/v1/topic?charset=UTF-8&access_token=" + a.GetToken()
+	response, err := resty.New().R().SetBody(string(bytesData)).Post(url)
+	if err != nil {
+		return nil
+	}
+	categories := &AiCategories{}
+	err = json.Unmarshal(response.Body(), categories)
+	if err != nil {
+		return nil
+	}
+	return categories
+}
+
+func (a *ai) GetNewsSummary(title, content string, maxSummaryLen int) (string, error) {
+	if title == "" || content == "" {
+		return "", errors.New("标题或内容为空")
+	}
+	if maxSummaryLen <= 0 {
+		maxSummaryLen = constants.SummaryLen
+	}
+
+	data := make(map[string]interface{})
+	data["title"] = title
+	data["content"] = simple.Substr(content, 0, 3000)
+	data["max_summary_len"] = maxSummaryLen
+
+	bytesData, err := json.Marshal(data)
+	if err != nil {
+		return "", err
+	}
+
+	url := "https://aip.baidubce.com/rpc/2.0/nlp/v1/news_summary?charset=UTF-8&access_token=" + a.GetToken()
+	response, err := resty.New().R().SetBody(string(bytesData)).Post(url)
+	if err != nil {
+		return "", err
+	}
+	ret := gjson.Get(string(response.Body()), "summary")
+	return ret.String(), nil
+}
+
+func (a *ai) AnalyzeMarkdown(title, markdownStr string) (*AiAnalyzeRet, error) {
+	content := markdown.ToHTML(markdownStr)
+	return a.AnalyzeHtml(title, content)
+}
+
+func (a *ai) AnalyzeHtml(title, html string) (*AiAnalyzeRet, error) {
+	if title == "" || html == "" {
+		return nil, errors.New("内容为空")
+	}
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
+	if err != nil {
+		return nil, err
+	}
+	text := doc.Text()
+	return a.AnalyzeText(title, text)
 }
 
 func (a *ai) AnalyzeText(title, text string) (*AiAnalyzeRet, error) {

@@ -9,9 +9,6 @@ import (
 var Instance *Config
 
 type Config struct {
-}
-
-type Config struct {
 	Env        string `yaml:"Env"`      //环境：prod、dev
 	BaseUrl    string `yaml:"BaseUrl"`  //base url
 	Port       string `yaml:Port`       //端口
