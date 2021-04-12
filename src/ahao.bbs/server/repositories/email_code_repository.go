@@ -15,6 +15,51 @@ func newEmailCodeRepository() *emailCodeRepository {
 	return &emailCodeRepository{}
 }
 
+func (r *emailCodeRepository) Get(db *gorm.DB, id int64) *model.EmailCode {
+	res := &model.EmailCode{}
+	if err := db.First(res, "id = ?", id).Error; err != nil {
+		return nil
+	}
+	return res
+}
+
+func (r *emailCodeRepository) Take(db *gorm.DB, where ...interface{}) *model.EmailCode {
+	res := &model.EmailCode{}
+	if err := db.Take(res, where...).Error; err != nil {
+		return nil
+	}
+	return res
+}
+
+func (r *emailCodeRepository) Find(db *gorm.DB, cnd *simple.SqlCnd) (list []model.EmailCode) {
+	cnd.Find(db, &list)
+	return
+}
+
+func (r *emailCodeRepository) FindOne(db *gorm.DB, cnd *simple.SqlCnd) *model.EmailCode {
+	res := &model.EmailCode{}
+	if err := cnd.FindOne(db, &res); err != nil {
+		return nil
+	}
+	return res
+}
+
+func (r *emailCodeRepository) FindPageByParams(db *gorm.DB, params *simple.QueryParams) (list []model.EmailCode, paging *simple.Paging) {
+	return r.FindPageByCnd(db, &params.SqlCnd)
+}
+
+func (r *emailCodeRepository) FindPageByCnd(db *gorm.DB, cnd *simple.SqlCnd) (list []model.EmailCode, paging *simple.Paging) {
+	cnd.Find(db, &list)
+	count := cnd.Count(db, &model.EmailCode{})
+
+	paging = &simple.Paging{
+		Page:  cnd.Paging.Page,
+		Limit: cnd.Paging.Limit,
+		Total: count,
+	}
+	return
+}
+
 func (r *emailCodeRepository) Count(db *gorm.DB, cnd *simple.SqlCnd) int64 {
 	return cnd.Count(db, &model.EmailCode{})
 }
