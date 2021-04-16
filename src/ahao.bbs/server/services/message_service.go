@@ -147,25 +147,25 @@ func (s *messageService) SendTopicRecommendMsg(topicId int64) {
 
 // 话题被删除消息
 func (s *messageService) SendTopicDeleteMsg(topicId, deleteUserId int64) {
-	topic:=repositories.TopicRepository.Get((simple.DB(),topicId))
-	if topic==nil{
+	topic := repositories.TopicRepository.Get(simple.DB(), topicId)
+	if topic == nil {
 		return
 	}
-	if topic.UserId==deleteUserId{
+	if topic.UserId == deleteUserId {
 		return
 	}
 	var (
 		title        = "你的话题被删除"
 		quoteContent = "《" + topic.GetTitle() + "》"
 	)
-	s.Produce(0,topic.UserId,title,"",quoteContent,constants.MsgTypeTopicDelete,map[string]interface{}{
-		"topicId":topicId,
-		"deleteUserId":deleteUserId,
+	s.Produce(0, topic.UserId, title, "", quoteContent, constants.MsgTypeTopicDelete, map[string]interface{}{
+		"topicId":      topicId,
+		"deleteUserId": deleteUserId,
 	})
 }
 
 //评论被回复消息
-func (s *messageService) SendCommentMsg(comment *model.Comment){
+func (s *messageService) SendCommentMsg(comment *model.Comment) {
 	var (
 		fromId       = comment.UserId                                          // 消息发送人
 		toId         int64                                                     // 消息接收人
@@ -173,14 +173,14 @@ func (s *messageService) SendCommentMsg(comment *model.Comment){
 		content      = common.GetSummary(comment.ContentType, comment.Content) // 消息内容
 		quoteContent string                                                    // 引用内容
 	)
-	if common.EntityType ==constants.EntityArticle{	//文章被评论
-		article:=repositories.ArticleRepository.Get(simple.DB(),common.EntityId)
-		if article!=nil{
-			toId =article.UserId
-			title="回复了你的文章"
-			quoteContent="《"+article.Title+"》"
+	if common.EntityType == constants.EntityArticle { //文章被评论
+		article := repositories.ArticleRepository.Get(simple.DB(), common.EntityId)
+		if article != nil {
+			toId = article.UserId
+			title = "回复了你的文章"
+			quoteContent = "《" + article.Title + "》"
 		}
-	}else if common.EntityType == constants.EntityTopic{	// 话题被评论
+	} else if common.EntityType == constants.EntityTopic { // 话题被评论
 		topic := repositories.TopicRepository.Get(simple.DB(), comment.EntityId)
 		if topic != nil {
 			toId = topic.UserId
@@ -189,7 +189,7 @@ func (s *messageService) SendCommentMsg(comment *model.Comment){
 		}
 	}
 
-	if toId<=0{
+	if toId <= 0 {
 		return
 	}
 
@@ -229,26 +229,26 @@ func (s *messageService) SendCommentMsg(comment *model.Comment){
 	}
 }
 
-func (s *messageService)getQuoteComment(quoteId int64)*model.Comment  {
-	if quoteId<=0{
+func (s *messageService) getQuoteComment(quoteId int64) *model.Comment {
+	if quoteId <= 0 {
 		return nil
 	}
-	return repositories.CommentRepository.Get(simple.DB(),quoteId)
+	return repositories.CommentRepository.Get(simple.DB(), quoteId)
 }
 
 // 生产，将消息数据放入chan
-func (s *messageService)Produce(fromId,toId int64,title,content,quoteContent string,msgType int,extraDataMap map[string]interface{})  {
+func (s *messageService) Produce(fromId, toId int64, title, content, quoteContent string, msgType int, extraDataMap map[string]interface{}) {
 	s.Consume()
-	to:=cache.UserCache.Get(toId)
-	if to ==nil || to.Type!=constants.UserTypeNormal{
+	to := cache.UserCache.Get(toId)
+	if to == nil || to.Type != constants.UserTypeNormal {
 		return
 	}
-	var(
+	var (
 		extraData string
-		err error
+		err       error
 	)
-	if extraData,err=json.ToStr(extraDataMap);err!=nil{
-		messageLog.Error("格式化extraData错误",err)
+	if extraData, err = json.ToStr(extraDataMap); err != nil {
+		messageLog.Error("格式化extraData错误", err)
 	}
 	s.messagesChan <- &model.Message{
 		FromId:       fromId,
@@ -264,17 +264,17 @@ func (s *messageService)Produce(fromId,toId int64,title,content,quoteContent str
 }
 
 // 消费，消费chan中的消息
-func (s *messageService)Consume()  {
+func (s *messageService) Consume() {
 	s.messagesConsumeOnce.Do(func() {
 		go func() {
 			messageLog.Info("开始消费系统消息...")
-			for{
-				msg:=<- s.messagesChan
-				messageLog.Info("处理消息：from=",msg.FromId," to=",msg.UserId)
+			for {
+				msg := <-s.messagesChan
+				messageLog.Info("处理消息：from=", msg.FromId, " to=", msg.UserId)
 
-				if err:=s.Create(msg);err!=nil{
-					messageLog.Info("创建消息发生异常...",err)
-				}else {
+				if err := s.Create(msg); err != nil {
+					messageLog.Info("创建消息发生异常...", err)
+				} else {
 					s.SendEmailNotice(msg)
 				}
 			}
@@ -283,7 +283,7 @@ func (s *messageService)Consume()  {
 }
 
 // 发邮件通知
-func (s *messageService)SendEmailNotice(msg *model.Message)  {
+func (s *messageService) SendEmailNotice(msg *model.Message) {
 	user := cache.UserCache.Get(msg.UserId)
 	if user != nil && len(user.Email.String) > 0 {
 		var (
