@@ -30,7 +30,7 @@ func (r *userLikeRepository) Take(db *gorm.DB, where ...interface{}) *model.User
 	return res
 }
 
-func (r *userLikeRepository) Find(db *gorm.DB, cnd *simple.SqlCnd) (list []model.User) {
+func (r *userLikeRepository) Find(db *gorm.DB, cnd *simple.SqlCnd) (list []model.UserLike) {
 	cnd.Find(db, &list)
 	return
 }
