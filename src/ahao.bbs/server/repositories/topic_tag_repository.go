@@ -9,10 +9,10 @@ import (
 type topicTagRepository struct {
 }
 
-var TopicTagRepository = newTopicRepository()
+var TopicTagRepository = newTopicTagRepository()
 
-func newTopicTagRepository() *topicRepository {
-	return &topicRepository{}
+func newTopicTagRepository() *topicTagRepository {
+	return &topicTagRepository{}
 }
 
 func (r *topicTagRepository) Get(db *gorm.DB, id int64) *model.TopicTag {
