@@ -6,24 +6,14 @@ import (
 	"ahao.bbs/server/model/constants"
 	"ahao.bbs/server/repositories"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"github.com/mlogclub/simple"
 	"github.com/mlogclub/simple/date"
 	"github.com/mlogclub/simple/number"
-	"strconv"
-	"strings"
-)
-FindPageByParams
-	"github.com/mlogclub/simple/date"
-	"github.com/mlogclub/simple/json"
-	"github.com/mlogclub/simple/number"
-	"strconv"
-	"strings"
-
-	"github.com/mlogclub/simple"
 	"github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
 	"gorm.io/gorm"
+	"strconv"
+	"strings"
 )
 
 var SysConfigService = newSysConfigService()
@@ -47,7 +37,6 @@ func (s *sysConfigService) FindOne(cnd *simple.SqlCnd) *model.SysConfig {
 	return repositories.SysConfigRepository.FindOne(simple.DB(), cnd)
 }
 
-
 func (s *sysConfigService) FindPageByParams(params *simple.QueryParams) (list []model.SysConfig, paging *simple.Paging) {
 	return repositories.SysConfigRepository.FindPageByParams(simple.DB(), params)
 }
@@ -60,23 +49,22 @@ func (s *sysConfigService) GetAll() []model.SysConfig {
 	return repositories.SysConfigRepository.Find(simple.DB(), simple.NewSqlCnd().Asc("id"))
 }
 
-func(s *sysConfigService)SetAll(configStr string)error{
-	json:=gjson.Pars(configStr)
-	configs,ok:=json.Value().(map[string]interface{})
-	if !ok{
+func (s *sysConfigService) SetAll(configStr string) error {
+	json := gjson.Pars(configStr)
+	configs, ok := json.Value().(map[string]interface{})
+	if !ok {
 		return errors.New("配置数据格式错误")
 	}
-	return simple.DB().Transaction(func(tx *gorm.DB)error {
-		for k,_:=range configs{
-			v:=json.Get(k).String()
-			if err:=s.setSingle(tx,k,v,"","");err!=nil{
+	return simple.DB().Transaction(func(tx *gorm.DB) error {
+		for k, _ := range configs {
+			v := json.Get(k).String()
+			if err := s.setSingle(tx, k, v, "", ""); err != nil {
 				return err
 			}
 		}
 		return nil
 	})
 }
-
 
 // 设置配置，如果配置不存在，那么创建
 func (s *sysConfigService) Set(key, value, name, description string) error {
