@@ -44,7 +44,7 @@ func (r *messageRepository) FindOne(db *gorm.DB, cnd *simple.SqlCnd) *model.Mess
 	return res
 }
 
-func (r *messageRepository) FindPageByParams(db *gorm.DB, params *simple.QueryParams) (list []model.Link, paging *simple.Paging) {
+func (r *messageRepository) FindPageByParams(db *gorm.DB, params *simple.QueryParams) (list []model.Message, paging *simple.Paging) {
 	return r.FindPageByCnd(db, &params.SqlCnd)
 }
 
