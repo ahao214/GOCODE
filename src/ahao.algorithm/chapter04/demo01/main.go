@@ -64,6 +64,26 @@ func FindDupByMap(arr []int) int {
 
 }
 
+//环形相遇方法
+func FindDupByLoop(arr []int) int {
+	if arr == nil {
+		return -1
+	}
+	slow := 0
+	fast := 0
+	for ok := true; ok; ok = slow != fast {
+		fast = arr[arr[fast]] //fast一次走两步
+		slow = arr[slow]      //slow一次走一步
+	}
+	fast = 0
+	//找到入口点
+	for ok := true; ok; ok = slow != fast {
+		fast = arr[fast]
+		slow = arr[slow]
+	}
+	return slow
+}
+
 func main() {
 	arr := []int{1, 3, 4, 2, 5, 3}
 	fmt.Println("Hash方法")
@@ -74,4 +94,7 @@ func main() {
 
 	fmt.Println("数据映射方法")
 	fmt.Println(FindDupByMap(arr))
+
+	fmt.Println("环形相遇方法")
+	fmt.Print(FindDupByLoop(arr))
 }
