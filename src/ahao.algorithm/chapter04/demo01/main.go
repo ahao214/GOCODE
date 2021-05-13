@@ -35,6 +35,35 @@ func FindDupByXOR(arr []int) int {
 	return result
 }
 
+//数据映射方法
+func FindDupByMap(arr []int) int {
+	if arr == nil {
+		return -1
+	}
+	len := len(arr)
+	index := 0
+	i := 0
+	for true {
+		//数组中的元素的值只能小于len，否则会溢出
+		if arr[i] >= len {
+			return -1
+		}
+		if arr[index] < 0 {
+			break
+		}
+		//访问过，通过变相反数的方法进行标记
+		arr[index] *= -1
+		//index的后续为array[index]
+		index = arr[index] * -1
+		if index >= len {
+			fmt.Println("数组中有非法数字")
+			return -1
+		}
+	}
+	return index
+
+}
+
 func main() {
 	arr := []int{1, 3, 4, 2, 5, 3}
 	fmt.Println("Hash方法")
@@ -42,4 +71,7 @@ func main() {
 
 	fmt.Println("异或方法")
 	fmt.Println(FindDupByXOR(arr))
+
+	fmt.Println("数据映射方法")
+	fmt.Println(FindDupByMap(arr))
 }
