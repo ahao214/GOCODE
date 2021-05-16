@@ -68,6 +68,42 @@ func minDistanceDyn(a, b, c []int) int {
 	return minDist
 }
 
+//数学运算法
+func minDistanceMath(a, b, c []int) int {
+	aLen := len(a)
+	bLen := len(b)
+	cLen := len(c)
+	i := 0
+	j := 0
+	k := 0
+	//最小的绝对值元和
+	MinSum := Abs(a[i]-b[j]) + Abs(a[i]-c[k]) + Abs(b[j]-c[k])
+	for cnt := 0; cnt <= aLen+bLen+cLen; cnt++ {
+		//计算三个绝对值的和，与最小值做比较
+		Sum := Abs(a[i]-b[j]) + Abs(a[i]-c[k]) + Abs(b[j]-c[k])
+		MinSum = Min(MinSum, Sum)
+		//找出当前遍历到三个数组中的最小值
+		min := Min3(a[i], b[j], c[k])
+		if min == a[i] {
+			i++
+			if i >= aLen {
+				break
+			}
+		} else if min == b[j] {
+			j++
+			if j >= bLen {
+				break
+			}
+		} else {
+			k++
+			if k >= cLen {
+				break
+			}
+		}
+	}
+	return MinSum
+}
+
 func main() {
 	a := []int{3, 4, 5, 7, 15}
 	b := []int{10, 12, 14, 16, 17}
@@ -76,4 +112,6 @@ func main() {
 	fmt.Println("最小距离为：", minDistance(a, b, c))
 	fmt.Println("最小距离法")
 	fmt.Println("最小距离为：", minDistanceDyn(a, b, c))
+	fmt.Println("数学运算法")
+	fmt.Println("最小距离为：", minDistanceMath(a, b, c))
 }
