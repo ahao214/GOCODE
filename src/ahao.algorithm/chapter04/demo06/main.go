@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 //找出数组中第K小的数
@@ -45,8 +46,35 @@ func FindSmallK(arr []int, low, high, k int) int {
 	}
 }
 
+//查找数组中前三名
+func FindTopThree(arr []int) (r1, r2, r3 int) {
+	if arr == nil || len(arr) < 3 {
+		return
+	}
+	r1 = math.MinInt64
+	r2 = math.MaxInt64
+	r3 = math.MinInt64
+	for _, v := range arr {
+		if v > r1 {
+			r3 = r2
+			r2 = r1
+			r1 = v
+		} else if v > r2 && v != r1 {
+			r3 = r2
+			r2 = v
+		} else if v > r3 && v != r2 {
+			r3 = v
+		}
+	}
+	return
+}
+
 func main() {
 	k := 3
 	arr := []int{4, 0, 1, 0, 2, 3}
 	fmt.Println("第", k, "小的值为", FindSmallK(arr, 0, len(arr)-1, k))
+
+	arrTop := []int{4, 7, 1, 2, 3, 5, 3, 6, 3, 2}
+	r1, r2, r3 := FindTopThree(arrTop)
+	fmt.Println("前三名分别为：", r1, r2, r3)
 }
