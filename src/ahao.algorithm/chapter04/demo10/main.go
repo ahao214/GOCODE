@@ -51,7 +51,7 @@ func maxSubArraySum(arr []int) int {
 	return maxSum
 }
 
-//动态规范方法
+//动态规划方法
 func maxSubArrayDyn(arr []int) int {
 	if arr == nil || len(arr) < 1 {
 		return -1
@@ -70,6 +70,23 @@ func maxSubArrayDyn(arr []int) int {
 	return All[n-1]
 }
 
+//优化的动态规划方法
+func maxSubArrayDyn2(arr []int) int {
+	if arr == nil || len(arr) < 1 {
+		return -1
+	}
+
+	//最大子数组和
+	nAll := arr[0]
+	//包含最后一个元素的最大子数组和
+	nEnd := arr[0]
+	for _, v := range arr {
+		nEnd = Max(nEnd+v, v)
+		nAll = Max(nEnd, nAll)
+	}
+	return nAll
+}
+
 func Max(a int, b int) int {
 	if a > b {
 		return a
@@ -85,4 +102,6 @@ func main() {
 	fmt.Println("连续最大和为：", maxSubArraySum(arr))
 	fmt.Println("动态规划法")
 	fmt.Println("连续最大和为：", maxSubArrayDyn(arr))
+	fmt.Println("优化的动态规划法")
+	fmt.Println("连续最大和为：", maxSubArrayDyn2(arr))
 }
