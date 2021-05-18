@@ -94,6 +94,28 @@ func Max(a int, b int) int {
 	return b
 }
 
+func maxSubArrayEx(arr []int) (maxSum, begin, end int) {
+	//子数组最大值
+	maxSum = math.MinInt64
+	//包含子数组最后一位的最大值
+	nSum := 0
+	nStart := 0
+	for i, v := range arr {
+		if nSum < 0 {
+			nSum = v
+			nStart = i
+		} else {
+			nSum += v
+		}
+		if nSum > maxSum {
+			maxSum = nSum
+			begin = nStart
+			end = i
+		}
+	}
+	return
+}
+
 func main() {
 	arr := []int{1, -2, 4, 8, -4, 7, -1, -5}
 	fmt.Println("蛮力法")
@@ -104,4 +126,9 @@ func main() {
 	fmt.Println("连续最大和为：", maxSubArrayDyn(arr))
 	fmt.Println("优化的动态规划法")
 	fmt.Println("连续最大和为：", maxSubArrayDyn2(arr))
+
+	fmt.Println("扩展题目")
+	maxSum, begin, end := maxSubArrayEx(arr)
+	fmt.Println("连续最大和为：", maxSum)
+	fmt.Println("最大和对应的数组起始和结束坐标分别为：", begin, ",", end)
 }
