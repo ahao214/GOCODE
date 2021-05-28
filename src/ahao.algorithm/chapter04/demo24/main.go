@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	. "github.com/isdamir/gotype"
+	"sort"
 )
 
 //对有大量重复的数字的数组排序
@@ -120,11 +121,41 @@ func (p *Sort) Sort(arr []int) {
 	p.inorder(arr, root, 0)
 }
 
+//哈希法
+func SortHash(arr []int) {
+	dataCount := map[int]int{}
+	series := make([]int, 0)
+	for _, v := range arr {
+		if val, ok := dataCount[v]; ok {
+			dataCount[v] = val + 1
+		} else {
+			dataCount[v] = 1
+			series = append(series, v)
+		}
+	}
+	index := 0
+
+	sort.Ints(series)
+	for _, v := range series {
+		val := dataCount[v]
+		for i := val; i > 0; i-- {
+			arr[index] = v
+			index++
+		}
+	}
+}
+
 func main() {
 	arr := []int{15, 12, 15, 2, 2, 12, 2, 3, 12, 100, 3, 3}
 	s := &Sort{}
 	s.Sort(arr)
 	fmt.Println("方法一：")
+	for _, v := range arr {
+		fmt.Print(v, " ")
+	}
+
+	fmt.Println("哈希法：")
+	SortHash(arr)
 	for _, v := range arr {
 		fmt.Print(v, " ")
 	}
