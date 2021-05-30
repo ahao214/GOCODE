@@ -32,6 +32,17 @@ func PermutaationStr(s string) {
 	Permutation([]rune(s), 0)
 }
 
+//非递归方法
+
+//方法功能：翻转字符串
+func Reverse(str []rune, begin, end int) {
+	for i, j := begin, end; i < j; i, j = i+1, j-1 {
+		SwapRune(str, i, j)
+	}
+}
+
+//方法功能：根据当前字符串的获取下一个组合
+
 func main() {
 	fmt.Println("递归方法")
 	PermutaationStr("abc")
