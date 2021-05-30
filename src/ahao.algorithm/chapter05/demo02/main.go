@@ -40,9 +40,52 @@ func getMaxSubStr(str1, str2 string) string {
 	return buf.String()
 }
 
+//滑动比较法
+func getMaxSub2(str1, str2 string) string {
+	len1 := len(str1)
+	len2 := len(str2)
+	var buf bytes.Buffer
+	maxLen := 0
+	maxLenEnd1 := 0
+	for i := 0; i < len1+len2; i++ {
+		s1begin := 0
+		s2begin := 0
+		tmpMaxLne := 0
+		if i < len1 {
+			s1begin = len1 - i
+		} else {
+			s2begin = i - len1
+		}
+		j := 0
+		for j = 0; (s1begin+j < len1) && (s2begin+j < len2); j++ {
+			if str1[s1begin+j] == str2[s2begin+j] {
+				tmpMaxLne++
+			} else {
+				if tmpMaxLne > maxLen {
+					maxLen = tmpMaxLne
+					maxLenEnd1 = s1begin + j
+				} else {
+					tmpMaxLne = 0
+				}
+			}
+		}
+		if tmpMaxLne > maxLen {
+			maxLen = tmpMaxLne
+			maxLenEnd1 = s1begin + j
+		}
+	}
+	for i := maxLenEnd1 - maxLen; i < maxLenEnd1; i++ {
+		buf.WriteByte(str1[i])
+	}
+	return buf.String()
+}
+
 func main() {
 	str1 := "abccade"
 	str2 := "dgcadde"
 	fmt.Println("动态规划方法")
 	fmt.Println(getMaxSubStr(str1, str2))
+
+	fmt.Println("滑动比较法")
+	fmt.Println(getMaxSub2(str1, str2))
 }
