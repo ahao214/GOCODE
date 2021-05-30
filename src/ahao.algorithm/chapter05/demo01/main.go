@@ -81,9 +81,46 @@ func PermutationMath(s string) {
 	}
 }
 
+//去掉重复的排列
+//函数功能；对字符串中的字符进行全排列
+func Permutation2(str []rune, start int) {
+	if start == len(str)-1 {
+		fmt.Println(string(str))
+	} else {
+		for i := start; i < len(str); i++ {
+			if !isDuplicate(str, start, i) {
+				continue
+			}
+			//交换start与i所在位置的字符
+			SwapRune(str, start, i)
+			//固定第一个字符，对剩余的字符进行全排列
+			Permutation2(str, start+1)
+			//还原start与i所在位置的字符
+			SwapRune(str, start, i)
+		}
+	}
+}
+
+//函数功能：判断[begin,end)区间中是否有字符与*end相等
+func isDuplicate(str []rune, begin, end int) bool {
+	for i := begin; i < end; i++ {
+		if str[i] == str[end] {
+			return false
+		}
+	}
+	return true
+}
+
+func PermutationStr2(s string) {
+	Permutation2([]rune(s), 0)
+}
+
 func main() {
 	fmt.Println("递归方法")
 	PermutaationStr("abc")
 	fmt.Println("非递归方法")
 	PermutationMath("abc")
+	fmt.Println("去掉重复的排列")
+	PermutationStr2("aba")
+
 }
