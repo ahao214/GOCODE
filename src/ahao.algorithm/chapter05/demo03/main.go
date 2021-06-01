@@ -30,6 +30,34 @@ func ReverseStr2(str string) string {
 
 }
 
+//方法功能：实现字符串反转
+func reverse_word(ch []rune, front, end int) {
+	for front < end {
+		ch[front] = ch[front] ^ ch[end]
+		ch[end] = ch[front] ^ ch[end]
+		ch[front] = ch[front] ^ ch[end]
+		front++
+		end--
+	}
+}
+
+//反转字符串中的单词
+func swapWrods(str string) string {
+	ch := []rune(str)
+	l1 := len(ch)
+	//对整个字符串进行字符反转操作
+	reverse_word(ch, 0, l1-1)
+	begin := 0
+	for i := 1; i < l1; i++ {
+		if ch[i] == ' ' {
+			reverse_word(ch, begin, i-1)
+			begin = i + 1
+		}
+	}
+	reverse_word(ch, begin, l1-1)
+	return string(ch)
+}
+
 func main() {
 	str := "abcdefg"
 	fmt.Println("临时变量法：")
@@ -39,5 +67,7 @@ func main() {
 	str2 := "abc"
 	fmt.Printf("字符串%v翻转后为：%v", str2, ReverseStr2(str2))
 	fmt.Println()
-
+	fmt.Println("实现单词反转")
+	strWord := "how  are you"
+	fmt.Printf("字符串%v翻转之后为：%v", strWord, swapWrods(strWord))
 }
