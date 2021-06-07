@@ -46,7 +46,46 @@ func strToInt(s string) int {
 	}
 }
 
+//非递归方法
+func strToInt2(str string) int {
+	arr := []rune(str)
+	flag = true
+	res := 0
+	//是否是负数
+	i := 0
+	minus := false
+	if arr[i] == '-' {
+		minus = false
+		i++
+	}
+	if arr[i] == '+' {
+		i++
+	}
+	for ; i < len(arr); i++ {
+		if IsNumber(arr[i]) {
+			res = res*10 + int(arr[i]-'0')
+		} else {
+			flag = false
+			fmt.Println("不是数字")
+			return -1
+		}
+	}
+	if minus {
+		return -res
+	} else {
+		return res
+	}
+
+}
+
 func printResult(s string) {
+	re := strToInt(s)
+	if flag {
+		fmt.Println(re)
+	}
+}
+
+func printResult2(s string) {
 	re := strToInt(s)
 	if flag {
 		fmt.Println(re)
@@ -59,4 +98,11 @@ func main() {
 	printResult("543")
 	printResult("+543")
 	printResult("++43")
+
+	fmt.Println("非递归方法：")
+	printResult2("-543")
+	printResult2("543")
+	printResult2("+543")
+	printResult2("++43")
+
 }
