@@ -64,6 +64,36 @@ func (p *Tests) expandBothSide(str string, c1, c2 int) {
 	}
 }
 
+//中心扩展法
+//对字符串str，以c1和c2为中心向两侧扩展寻找回文子串
+func (p *Tests) expendBothSide2(str string, c1, c2 int) {
+	n := len(str)
+	for c1 >= 0 && c2 < n && str[c1] == str[c2] {
+		c1--
+		c2++
+	}
+	tmpStartIndex := c1 + 1
+	tmpLen := c2 - c1 - 1
+	if tmpLen > p.len {
+		p.len = tmpLen
+		p.startIndex = tmpStartIndex
+	}
+}
+
+//找出字符串最长的回文子串
+func (p *Tests) getLongestPalindrome2(str string) {
+	n := len(str)
+	if n < 1 {
+		return
+	}
+	for i, _ := range str {
+		//找回文字符串长度为奇数的情况
+		p.expendBothSide2(str, i, i)
+		//找回文字符串长度为偶数的情况
+		p.expendBothSide2(str, i, i+1)
+	}
+}
+
 func main() {
 	str := "abcdefgfedxyz"
 	t := &Tests{}
@@ -75,4 +105,12 @@ func main() {
 		fmt.Println("查找失败")
 	}
 
+	fmt.Println("方法二：")
+	t2 := Tests{}
+	t2.getLongestPalindrome2(str)
+	if t2.startIndex != -1 && t2.len != -1 {
+		fmt.Println("最长的回文子串为：", string(str[t2.startIndex:t2.startIndex+t.len]))
+	} else {
+		fmt.Println("查找失败")
+	}
 }
