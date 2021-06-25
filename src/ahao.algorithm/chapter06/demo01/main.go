@@ -43,6 +43,27 @@ func isPower2(n int) bool {
 	return false
 }
 
+//减法运算法
+func isPower3(n int) bool {
+	if n <= 0 {
+		fmt.Println(n, "不是自然数")
+		return false
+	}
+	minus := 1
+	for n > 0 {
+		n = n - minus
+		//n是某个数的平方
+		if n == 0 {
+			return true
+		} else if n < 0 {
+			return false
+		} else {
+			minus += 2
+		}
+	}
+	return false
+}
+
 //判断一个自然数是否是某个数的平方
 func main() {
 	n1 := 15
@@ -73,4 +94,16 @@ func main() {
 		fmt.Println(n2, "不是某个自然数的平方")
 	}
 
+	fmt.Println("减法运算法：")
+	if isPower3(n1) {
+		fmt.Println(n1, "是某个自然数的平方")
+	} else {
+		fmt.Println(n1, "不是某个自然数的平方")
+	}
+
+	if isPower3(n2) {
+		fmt.Println(n2, "是某个自然数的平方")
+	} else {
+		fmt.Println(n2, "不是某个自然数的平方")
+	}
 }
