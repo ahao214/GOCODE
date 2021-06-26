@@ -18,6 +18,23 @@ func divide(m, n int) (res, remain int) {
 	return
 }
 
+//移位法
+func divide2(m, n int) (res, remain int) {
+	res = 0
+	for m >= n {
+		multi := 1
+		//multi*n>m/2时结束循环
+		for multi*n <= (m >> 1) {
+			multi <<= 1
+		}
+		res += multi
+		//相减的结果进入下次循环
+		m -= multi * n
+	}
+	remain = m
+	return
+}
+
 //不使用除法操作符实现两个正整数的除法
 func main() {
 	m := 14
@@ -27,4 +44,9 @@ func main() {
 	res, remain := divide(m, n)
 	fmt.Println("商为：", res, "余数为：", remain)
 
+	fmt.Println("移位法：")
+	fmt.Println("减法：")
+	fmt.Println(m, "除以", n)
+	res, remain = divide2(m, n)
+	fmt.Println("商为：", res, "余数为：", remain)
 }
