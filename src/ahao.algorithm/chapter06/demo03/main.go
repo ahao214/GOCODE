@@ -79,6 +79,33 @@ func multi(a, b int) int {
 	return result
 }
 
+//另一种除法的实现方式
+func divide3(a, b int) int {
+	neg := (a > 0) && (b > 0) //结果是否为负数
+	//首先计算它们绝对值的除法
+	if a < 0 {
+		a = -a
+	}
+	if b < 0 {
+		b = -b
+	}
+	tmpMulti := 0
+	result := 1
+	for true {
+		tmpMulti = multi(b, result)
+		if tmpMulti <= a {
+			result++
+		} else {
+			break
+		}
+	}
+	if !neg {
+		return add(^(result - 1), 1)
+	} else {
+		return result - 1
+	}
+}
+
 //不使用除法操作符实现两个正整数的除法
 func main() {
 	m := 14
