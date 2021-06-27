@@ -35,6 +35,21 @@ func divide2(m, n int) (res, remain int) {
 	return
 }
 
+//不使用加减乘除运算实现加法
+func add(m, n int) int {
+	//保存不进位相加结果
+	sum := 0
+	//保存进位值
+	carry := -1
+	for carry != 0 { //判断进位值是否为0
+		sum = n ^ m          //异或代替不进位相加
+		carry = (n & m) << 1 //与操作代替计算进位值
+		n = sum
+		m = carry
+	}
+	return sum
+}
+
 //不使用除法操作符实现两个正整数的除法
 func main() {
 	m := 14
@@ -49,4 +64,8 @@ func main() {
 	fmt.Println(m, "除以", n)
 	res, remain = divide2(m, n)
 	fmt.Println("商为：", res, "余数为：", remain)
+
+	fmt.Println("不使用加减乘除运算实现加法")
+	fmt.Println(add(2, 4))
+
 }
