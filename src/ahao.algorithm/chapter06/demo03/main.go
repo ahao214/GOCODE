@@ -50,6 +50,35 @@ func add(m, n int) int {
 	return sum
 }
 
+//不使用加减乘除运算实现乘法
+func multi(a, b int) int {
+	neg := (a > 0) && (b > 0)
+	//首先计算两个正数相乘的结果，最后根据neg确定结果的正负
+	if b < 0 {
+		b = add(^a, 1) //-b
+	}
+	if a < 0 {
+		a = add(^a, 1) //-a
+	}
+	result := 0
+	//key:1 向左移位后的值，value:移位的次数即位置编号
+	bit_position := make(map[int]int)
+	//计算出1向左移动(0,1,2,3...31)位的值
+	for i := 0; i < 32; i++ {
+		bit_position[1<<uint(i)] = i
+	}
+	for b > 0 {
+		//计算出最后一位1的位置编号
+		position := bit_position[b&(b-1)]
+		result += (a << uint(position))
+		b &= b - 1 //去掉最后一位
+	}
+	if !neg {
+		result = add(^result, 1)
+	}
+	return result
+}
+
 //不使用除法操作符实现两个正整数的除法
 func main() {
 	m := 14
@@ -67,5 +96,8 @@ func main() {
 
 	fmt.Println("不使用加减乘除运算实现加法")
 	fmt.Println(add(2, 4))
+
+	fmt.Println("不使用加减乘除运算实现乘法")
+	fmt.Println(multi(2, 3))
 
 }
