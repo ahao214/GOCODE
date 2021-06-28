@@ -49,6 +49,26 @@ func multi(a, b int) int {
 	return res
 }
 
+//用++实现除法操作(限制条件：两个数都是整数)
+func divide(a, b int) int {
+	if a <= 0 || b <= 0 {
+		fmt.Println("无法使用++操作实现")
+		return -1
+	}
+
+	res := 1
+	tmpMulti := 0
+	for true {
+		tmpMulti = multi(b, res)
+		if tmpMulti <= a {
+			res++
+		} else {
+			break
+		}
+	}
+	return res - 1
+}
+
 //如何只使用++操作符实现加减乘除运算
 func main() {
 	fmt.Println("加法：")
@@ -57,4 +77,6 @@ func main() {
 	fmt.Println(minus(9, 2))
 	fmt.Println("乘法：")
 	fmt.Println(multi(9, 3))
+	fmt.Println("除法")
+	fmt.Println(divide(4, 2))
 }
