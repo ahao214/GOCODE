@@ -22,9 +22,20 @@ func combinationCount(n int) int {
 	return count
 }
 
+//数字规律法
+func combinationCount2(n int) int {
+	count := 0
+	for m := 0; m <= n; m += 5 {
+		count += (m + 2) / 2
+	}
+	return count
+}
+
 //如何组合1，2,5这三个数使其和为100
 func main() {
 	fmt.Println("蛮力法：")
 	fmt.Println(combinationCount(100))
 
+	fmt.Println("数字规律法：")
+	fmt.Println(combinationCount2(100))
 }
