@@ -27,8 +27,14 @@ func main() {
 
 	fmt.Printf("bookPython title:%s\n", bookPython.title)
 
+	fmt.Println("----------------")
 	printBook(bookGo)
 	printBook(bookPython)
+
+	fmt.Println("----------------")
+	//结构体指针
+	printBooks(&bookGo)
+	printBooks(&bookPython)
 }
 
 func printBook(books Books) {
@@ -36,4 +42,12 @@ func printBook(books Books) {
 	fmt.Printf("Book author:%s\n", books.author)
 	fmt.Printf("Book subject:%s\n", books.subject)
 	fmt.Printf("Book press:%s\n", books.press)
+}
+
+//结构体指针
+func printBooks(book *Books) {
+	fmt.Printf("Book title:%s\n", book.title)
+	fmt.Printf("Book author:%s\n", book.author)
+	fmt.Printf("Book subject:%s\n", book.subject)
+	fmt.Printf("Book press:%s\n", book.press)
 }
