@@ -10,7 +10,7 @@ func main() {
 	srv := &http.Server{Addr: ":8080", Handler: http.HandlerFunc(handle)}
 	//用TLS启动服务器，因为我们运行的是HTTP 2，所以它必须与TLS一起运行
 	log.Printf("Serving on https://0.0.0.0:8088")
-	log.Fatal(srv.ListenAndServe("server.crt", "server.key"))
+	log.Fatal(srv.ListenAndServeTLS("server.crt", "server.key"))
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
