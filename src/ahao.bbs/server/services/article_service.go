@@ -1,7 +1,7 @@
 package services
 
 import (
-	model2 "Ahao.Blogger/model"
+	"ahao.bbs/server/model"
 	"ahao.bbs/server/model/constants"
 	"errors"
 	"github.com/mlogclub/simple/date"
@@ -17,7 +17,6 @@ import (
 	"ahao.bbs/server/common/seo"
 	"ahao.bbs/server/common/urls"
 	"ahao.bbs/server/config"
-	"ahao.bbs/server/model"
 	"ahao.bbs/server/repositories"
 
 	"github.com/gorilla/feeds"
