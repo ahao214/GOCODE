@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 //326. 3的幂
 
 //循环
@@ -12,4 +14,9 @@ func isPowerOfThree2(num int) bool {
 		}
 	}
 	return num == 1
+}
+
+func main() {
+	n := 27
+	fmt.Println(isPowerOfThree2(n))
 }
