@@ -1,8 +1,7 @@
 package main
 
-//判断回文
-
 /**
+ * 判断回文
  * @param str string字符串 待判断的字符串
  * @return bool布尔型
  */
