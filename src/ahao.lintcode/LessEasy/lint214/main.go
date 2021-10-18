@@ -1,7 +1,7 @@
 package main
 
 /**
- * 214.数字的最大值
+ * 214.数组的最大值
  * @param A: An integer
  * @return: a float number
  */
