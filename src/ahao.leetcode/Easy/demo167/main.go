@@ -20,3 +20,22 @@ func twoSum(numbers []int, target int) []int {
 	}
 	return res
 }
+
+func twoSums(numbers []int, target int) []int {
+	res := []int{}
+	if numbers == nil || len(numbers) < 2 {
+		return res
+	}
+	left, right := 0, len(numbers)-1
+	for left < right {
+		sum := numbers[left] + numbers[right]
+		if sum == target {
+			return []int{left + 1, right + 1}
+		} else if sum > target {
+			right--
+		} else {
+			left++
+		}
+	}
+	return res
+}
