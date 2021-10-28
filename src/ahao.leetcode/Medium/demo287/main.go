@@ -22,6 +22,23 @@ func findDuplicate(nums []int) int {
 	return low
 }
 
+func findDuplicateT(nums []int) int {
+	slow, fast := nums[0], nums[0]
+	slow = nums[slow]
+	fast = nums[nums[fast]]
+	for slow != fast {
+		slow = nums[slow]
+		fast = nums[nums[fast]]
+	}
+	p1 := nums[0]
+	p2 := slow
+	for p1 != p2 {
+		p1 = nums[p1]
+		p2 = nums[p2]
+	}
+	return p1
+}
+
 func main() {
 	nums := []int{1, 3, 4, 2, 2}
 	fmt.Println(findDuplicate(nums))
