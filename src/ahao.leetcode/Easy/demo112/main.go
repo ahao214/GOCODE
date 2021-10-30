@@ -17,5 +17,4 @@ func pathSum(root *TreeNode, sum int) bool {
 	}
 
 	return pathSum(root.Left, sum-root.Val) || pathSum(root.Right, sum-root.Val)
-
 }
