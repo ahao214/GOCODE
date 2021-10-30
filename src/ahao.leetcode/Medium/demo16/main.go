@@ -50,12 +50,40 @@ func threeSumClosestBL(nums []int, target int) int {
 	return res
 }
 
+func threeSumClosests(nums []int, target int) int {
+	if nums == nil || len(nums) < 3 {
+		return -1
+	}
+	res := nums[0] + nums[1] + nums[2]
+	sort.Ints(nums)
+	for i := 0; i < len(nums); i++ {
+		left, right := i+1, len(nums)-1
+		for left < right {
+			sum := nums[i] + nums[left] + nums[right]
+			if sum == target {
+				return sum
+			}
+			if abs(sum-target) < abs(res-target) {
+				res = sum
+			}
+			if sum < target {
+				left += 1
+			}
+			if sum > target {
+				right -= 1
+			}
+		}
+	}
+	return res
+}
+
 func abs(a int) int {
 	if a > 0 {
 		return a
 	}
 	return -a
 }
+
 func main() {
 	nums := []int{-1, 2, 1, -4}
 	target := 1
