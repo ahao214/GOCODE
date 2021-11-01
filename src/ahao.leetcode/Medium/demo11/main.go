@@ -31,6 +31,37 @@ func maxArea(height []int) int {
 
 }
 
+func maxArea2(height []int) int {
+	if height == nil || len(height) < 2 {
+		return 0
+	}
+	maxArea := 0
+	left, right := 0, len(height)-1
+	for left < right {
+		maxArea = maxInt(maxArea, minInt(height[right], height[left])*(right-left))
+		if height[right] > height[left] {
+			left += 1
+		} else {
+			right -= 1
+		}
+	}
+	return maxArea
+}
+
+func maxInt(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func minInt(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func main() {
 	fmt.Println("盛水最大的容器")
 	arr := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
