@@ -18,3 +18,17 @@ func removeDuplicates(nums []int) int {
 	}
 	return last + 1
 }
+
+func removeDuplicates2(nums []int) int {
+	if nums == nil || len(nums) == 0 {
+		return 0
+	}
+	res := 0
+	for i := 1; i < len(nums); i++ {
+		if nums[i] != nums[res] {
+			res++
+			nums[res] = nums[i]
+		}
+	}
+	return res + 1
+}
