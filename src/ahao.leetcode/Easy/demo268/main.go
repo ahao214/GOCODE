@@ -3,6 +3,8 @@ package main
 import "sort"
 
 //268. 丢失的数字
+
+//位运算
 func missingNumber(nums []int) int {
 	xor, i := 0, 0
 	for i = 0; i < len(nums); i++ {
