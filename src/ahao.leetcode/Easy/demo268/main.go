@@ -23,3 +23,16 @@ func missingNumber2(arr []int) int {
 	}
 	return len(arr)
 }
+
+//哈希集合
+func missingNumber3(arr []int) int {
+	has := map[int]bool{}
+	for _, v := range arr {
+		has[v] = true
+	}
+	for i := 0; ; i++ {
+		if !has[i] {
+			return i
+		}
+	}
+}
