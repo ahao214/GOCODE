@@ -36,3 +36,14 @@ func missingNumber3(arr []int) int {
 		}
 	}
 }
+
+//数学方法
+func missingNumber4(arr []int) int {
+	n := len(arr)
+	total := n * (n + 1) / 2
+	arrSum := 0
+	for _, n := range arr {
+		arrSum += n
+	}
+	return total - arrSum
+}
