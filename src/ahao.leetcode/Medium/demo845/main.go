@@ -1,11 +1,11 @@
 package main
 
 //845. 数组中的最长山脉
-func longestMountain(A []int) int {
+func longestMountain(arr []int) int {
 	left, right, res, isAscending := 0, 0, 0, true
-	for left < len(A) {
-		if right+1 < len(A) && ((isAscending == true && A[right+1] > A[left] && A[right+1] > A[right]) || (right != left && A[right+1] < A[right])) {
-			if A[right+1] < A[right] {
+	for left < len(arr) {
+		if right+1 < len(arr) && ((isAscending == true && arr[right+1] > arr[left] && arr[right+1] > arr[right]) || (right != left && arr[right+1] < arr[right])) {
+			if arr[right+1] < arr[right] {
 				isAscending = false
 			}
 			right++
@@ -30,4 +30,33 @@ func max(a, b int) int {
 		return a
 	}
 	return b
+}
+
+func longestMountain2(arr []int) int {
+	if arr == nil || len(arr) < 3 {
+		return 0
+	}
+	slow, fast, res := 0, 0, 0
+	for slow < len(arr) {
+		if fast < len(arr)-1 && arr[fast+1] > arr[fast] {
+			for fast < len(arr)-1 && arr[fast+1] > arr[fast] {
+				fast++
+			}
+			if fast < len(arr)-1 && arr[fast+1] < arr[fast] {
+				for fast < len(arr)-1 && arr[fast+1] < arr[fast] {
+					fast++
+				}
+				if fast != slow && (fast-slow+1) > res {
+					res = fast - slow + 1
+				}
+			}
+		}
+		if fast > slow {
+			slow = fast
+		} else {
+			slow++
+			fast = slow
+		}
+	}
+	return res
 }
