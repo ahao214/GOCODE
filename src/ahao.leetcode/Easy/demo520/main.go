@@ -20,3 +20,25 @@ func detectCapitalUse(word string) bool {
 	}
 	return true
 }
+
+func detectCapitalUse2(word string) bool {
+	capCount := 0
+	for i := 0; i < len(word); i++ {
+		if unicode.IsUpper(rune(word[i])) {
+			capCount++
+		}
+	}
+	//全是小写字母
+	if capCount == 0 {
+		return true
+	}
+	//全是大写字母
+	if capCount == len(word) {
+		return true
+	}
+	//首字母大写其他小写字母
+	if capCount == 1 && unicode.IsUpper(rune(word[0])) {
+		return true
+	}
+	return false
+}
