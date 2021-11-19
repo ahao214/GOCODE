@@ -64,7 +64,7 @@ func integerReplacement3(n int) (ans int) {
 
 func min(a, b int) int {
 	if a > b {
-		return a
+		return b
 	}
-	return b
+	return a
 }
