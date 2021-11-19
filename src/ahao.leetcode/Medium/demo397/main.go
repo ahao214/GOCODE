@@ -39,6 +39,29 @@ func integerReplacement2(n int) int {
 	return intReplacement(n)
 }
 
+/*
+贪心
+*/
+func integerReplacement3(n int) (ans int) {
+	for n != 1 {
+		switch {
+		case n%2 == 0:
+			ans++
+			n /= 2
+		case n%4 == 1:
+			ans += 2
+			n /= 2
+		case n == 3:
+			ans += 2
+			n = 1
+		default:
+			ans += 2
+			n = n/2 + 1
+		}
+	}
+	return
+}
+
 func min(a, b int) int {
 	if a > b {
 		return a
