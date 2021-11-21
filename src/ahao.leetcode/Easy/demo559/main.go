@@ -35,5 +35,5 @@ func maxDepth2(root *Node) int {
 		}
 		ans++
 	}
-	return
+	return ans
 }
