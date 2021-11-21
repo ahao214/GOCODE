@@ -19,3 +19,21 @@ func maxDepth(root *Node) int {
 	}
 	return maxChildDepth
 }
+
+//广度优先搜索
+func maxDepth2(root *Node) int {
+	ans := 0
+	if root == nil {
+		return ans
+	}
+	queue := []*Node{root}
+	for len(queue) > 0 {
+		q := queue
+		queue = nil
+		for _, node := range q {
+			queue = append(queue, node.Children...)
+		}
+		ans++
+	}
+	return
+}
