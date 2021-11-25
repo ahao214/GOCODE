@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 //458. 可怜的小猪
 
 //动态规划
@@ -40,4 +42,10 @@ func poorPigs(buckets int, minutesToDie int, minutesToTest int) int {
 		}
 	}
 	return 0
+}
+
+//数学
+func poorPigs2(buckets int, minutesToDie int, minutesToTest int) int {
+	iteration := minutesToTest/minutesToDie + 1
+	return int(math.Ceil(math.Log(float64(buckets)) / math.Log(float64(iteration))))
 }
