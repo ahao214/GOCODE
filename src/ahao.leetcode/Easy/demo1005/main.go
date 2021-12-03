@@ -1,5 +1,7 @@
 package main
 
+import "sort"
+
 //1005. K 次取反后最大化的数组和
 func largestSumAfterKNegations(nums []int, k int) int {
 	ans := 0
@@ -33,4 +35,20 @@ func min(a, b int) int {
 		return b
 	}
 	return a
+}
+
+func largestSumAfterKNegations2(A []int, K int) int {
+	sort.Ints(A)
+	minIdx := 0
+	for i := 0; i < K; i++ {
+		A[minIdx] = -A[minIdx]
+		if A[minIdx+1] < A[minIdx] {
+			minIdx++
+		}
+	}
+	sum := 0
+	for _, a := range A {
+		sum += a
+	}
+	return sum
 }
