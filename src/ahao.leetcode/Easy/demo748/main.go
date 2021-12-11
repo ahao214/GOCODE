@@ -1,5 +1,7 @@
 package main
 
+import "unicode"
+
 //748. 最短补全词
 func shortestCompletingWord(licensePlate string, words []string) string {
 	var ans string
