@@ -30,3 +30,18 @@ func twoNum2(nums []int, target int) []int {
 	}
 	return res
 }
+
+func twoNums3(nums []int, target int) []int {
+	res := []int{-1, -1}
+	lookUp := make(map[int]int)
+	for i, n := range nums {
+		tmp := target - n
+		if _, ok := lookUp[tmp]; ok {
+			res[0] = lookUp[tmp]
+			res[1] = i
+			return res
+		}
+		lookUp[n] = i
+	}
+	return res
+}
