@@ -21,7 +21,7 @@ func inOrder(root *TreeNode, sum *int) {
 		return
 	}
 	inOrder(root.Right, sum)
-	*sum = root.Val
 	root.Val += *sum
+	*sum = root.Val
 	inOrder(root.Left, sum)
 }
