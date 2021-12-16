@@ -37,7 +37,7 @@ func visiblePoints(points [][]int, angle int, location []int) int {
 }
 
 //滑动窗口
-func visiblePoints2(points [][]int, angle int, location []int) int {
+func visiblePoints1(points [][]int, angle int, location []int) int {
 	sameCnt := 0
 	polarDegrees := []float64{}
 	for _, p := range points {
@@ -66,4 +66,41 @@ func visiblePoints2(points [][]int, angle int, location []int) int {
 		}
 	}
 	return sameCnt + maxCnt
+}
+
+func visiblePoints2(points [][]int, angle int, location []int) int {
+	same := 0
+	//转换
+	angles := []float64{}
+	a := 0.0
+	//计算在一条直线上的点
+	for _, point := range points {
+		if point[0] == location[0] && point[1] == location[1] {
+			same++
+			continue
+		}
+		//atan2 可以直接鉴别象限
+		a = math.Atan2(float64(y), float64(x)) * 180 / math.Pi
+		//转换为360度表现形式
+		if a < 0 {
+			a = a + 360
+		}
+		angles = append(angles, a)
+	}
+	//排序
+	sort.Float64s(angles)
+	length := len(angles)
+	//在加一圈
+	for _, angle := range angles {
+		angles = append(angles, angle+360)
+	}
+	max := 0
+	//双指针
+	for l, r := 0, 0; l < length; l++ {
+		for r+1 < len(angles) && (angles[r+1]-angles[l]) <= float64(angle)+1e-8 {
+			r++
+		}
+		max = int(math.Max(float64(max), float64(r-l+1)))
+	}
+	return max + same
 }
