@@ -80,7 +80,7 @@ func visiblePoints2(points [][]int, angle int, location []int) int {
 			continue
 		}
 		//atan2 可以直接鉴别象限
-		a = math.Atan2(float64(y), float64(x)) * 180 / math.Pi
+		a = math.Atan2(float64(point[1]-location[1]), float64(point[0]-location[0])) * 180 / math.Pi
 		//转换为360度表现形式
 		if a < 0 {
 			a = a + 360
