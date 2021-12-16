@@ -1,0 +1,37 @@
+package main
+
+import (
+	"math"
+	"sort"
+)
+
+//1610. 可见点的最大数目
+
+//二分查找
+func visiblePoints(points [][]int, angle int, location []int) int {
+	sameCnt := 0
+	polarDegrees := []float64{}
+	for _, p := range points {
+		if p[0] == location[0] && p[1] == location[1] {
+			sameCnt++
+		} else {
+			polarDegrees = append(polarDegrees, math.Atan2(float64(p[1]-location[1]), float64(p[0]-location[0])))
+		}
+	}
+	sort.Float64s(polarDegrees)
+
+	n := len(polarDegrees)
+	for _, deg := range polarDegrees {
+		polarDegrees = append(polarDegrees, deg+2*math.Pi)
+	}
+
+	maxCnt := 0
+	degree := float64(angle) * math.Pi / 180
+	for i, deg := range polarDegrees[:n] {
+		j := sort.Search(n*2, func(j int) bool { return polarDegrees[j] > deg+degree })
+		if j-i > maxCnt {
+			maxCnt = j - i
+		}
+	}
+	return sameCnt + maxCnt
+}
