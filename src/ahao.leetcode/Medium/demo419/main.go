@@ -22,3 +22,16 @@ func countBattleships(board [][]byte) int {
 	}
 	return ans
 }
+
+//枚举起点
+func countBattleships2(board [][]byte) int {
+	ans := 0
+	for i, row := range board {
+		for j, ch := range row {
+			if ch == 'X' && !(i > 0 && board[i-1][j] == 'X' || j > 0 && board[i][j-1] == 'X') {
+				ans++
+			}
+		}
+	}
+	return ans
+}
