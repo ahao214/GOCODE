@@ -22,3 +22,22 @@ func numFriendRequests(ages []int) (ans int) {
 	}
 	return
 }
+
+//方法二：计数排序 + 前缀和
+func numFriendRequests1(ages []int) (ans int) {
+	const mx = 121
+	var cnt, pre [mx]int
+	for _, age := range ages {
+		cnt[age]++
+	}
+	for i := 1; i < mx; i++ {
+		pre[i] = pre[i-1] + cnt[i]
+	}
+	for i := 15; i < mx; i++ {
+		if cnt[i] > 0 {
+			bound := i/2 + 8
+			ans += cnt[i] * (pre[i] - pre[bound-1] - 1)
+		}
+	}
+	return
+}
