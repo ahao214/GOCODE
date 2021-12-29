@@ -21,3 +21,20 @@ func help(arr []int, left, right int) *TreeNode {
 	root.Right = help(arr, mid+1, right)
 	return root
 }
+
+func sortedArrayToBST1(arr []int) *TreeNode {
+	if arr == nil || len(arr) == 0 {
+		return nil
+	}
+	if len(arr) == 1 {
+		root := &TreeNode{}
+		root.Val = arr[0]
+		return root
+	}
+	mid := len(arr) / 2
+	root := &TreeNode{}
+	root.Val = arr[mid]
+	root.Left = sortedArrayToBST1(arr[:mid])
+	root.Right = sortedArrayToBST1(arr[mid+1:])
+	return root
+}
