@@ -12,3 +12,18 @@ func construct2DArray(original []int, m, n int) [][]int {
 	}
 	return ans
 }
+
+func construct2DArray2(original []int, m, n int) [][]int {
+	if len(original) != m*n {
+		return nil
+	}
+	res := make([][]int, m)
+
+	left, right := 0, n
+	for i := 0; i < m; i++ {
+		res[i] = original[left:right]
+		left += n
+		right += n
+	}
+	return res
+}
