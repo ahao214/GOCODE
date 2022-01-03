@@ -15,3 +15,29 @@ func findJudge(n int, trust [][]int) int {
 	}
 	return -1
 }
+
+func findJudge1(n int, trust [][]int) int {
+	if n == 1 {
+		return n
+	}
+
+	dic := make(map[int]int)
+	for _, v := range trust {
+		dic[v[1]]++
+	}
+	res := -1
+	for k, v := range dic {
+		if v == n-1 {
+			res = k
+			break
+		}
+	}
+	if res > -1 {
+		for _, v := range trust {
+			if v[0] == res {
+				return -1
+			}
+		}
+	}
+	return res
+}
