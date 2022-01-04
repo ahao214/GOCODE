@@ -16,6 +16,22 @@ func isPowerOfThree2(num int) bool {
 	return num == 1
 }
 
+func isPowerOfThree(num int) bool {
+	return isPowerOfN(num, 3)
+}
+
+func isPowerOfN(num int, n int) bool {
+	if num < 1 {
+		return false
+	}
+	for num != 1 {
+		if num%n == 0 {
+			num = num / n
+		}
+	}
+	return num == 1
+}
+
 func main() {
 	n := 27
 	fmt.Println(isPowerOfThree2(n))
