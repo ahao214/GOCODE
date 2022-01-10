@@ -37,3 +37,10 @@ func recursiveCheck(num string, x1 int, x2 int, left int) bool {
 	}
 	return false
 }
+
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
