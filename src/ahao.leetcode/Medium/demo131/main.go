@@ -95,6 +95,40 @@ func isPal(str string, s, e int) bool {
 	return true
 }
 
-func main() {
+func partition3(s string) [][]string {
+	res := [][]string{}
+	if len(s) == 0 {
+		return res
+	}
+	cur := []string{}
+	backtrack(s, 0, cur, &res)
+	return res
+}
 
+func backtrack(s string, start int, cur []string, res *[][]string) {
+	if start == len(s) {
+		tmp := make([]string, len(cur))
+		copy(tmp, cur)
+		*res = append(*res, tmp)
+		return
+	}
+	for i := start; i < len(s); i++ {
+		if isPalindrome3(s[start : i+1]) {
+			cur = append(cur, string(s[start:i+1]))
+			backtrack(s, i+1, cur, res)
+			cur = cur[:len(cur)-1]
+		}
+	}
+}
+
+func isPalindrome3(s string) bool {
+	left, right := 0, len(s)-1
+	for left < right {
+		if s[left] != s[right] {
+			return false
+		}
+		left++
+		right--
+	}
+	return true
 }
