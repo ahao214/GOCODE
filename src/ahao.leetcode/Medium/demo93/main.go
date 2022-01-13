@@ -44,7 +44,6 @@ func backtrack(s string, index int, cur []string, res *[]string) {
 			cur = cur[:len(cur)-1]
 		}
 	}
-
 }
 
 func isValidIP(ip string, index int) bool {
