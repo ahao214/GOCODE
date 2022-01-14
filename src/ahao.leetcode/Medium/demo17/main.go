@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 var (
 	letterMap = []string{
@@ -83,6 +85,45 @@ func letterFunc(res string, digits string) {
 		res = res[0 : len(res)-1]
 	}
 
+}
+
+func letterCombinations1(digits string) []string {
+	res := []string{}
+	if len(digits) == 0 {
+		return res
+	}
+	dic := make(map[byte]string)
+	dic['0'] = " "
+	dic['1'] = " "
+	dic['2'] = "abc"
+	dic['3'] = "def"
+	dic['4'] = "ghi"
+	dic['5'] = "jkl"
+	dic['6'] = "mno"
+	dic['7'] = "pqrs"
+	dic['8'] = "tuv"
+	dic['9'] = "wxyz"
+	cur := []byte{}
+	backtrack(digits, cur, 0, dic, &res)
+	return res
+}
+
+func backtrack(digits string, cur []byte, start int, dic map[byte]string, res *[]string) {
+	if len(cur) == len(digits) {
+		*res = append(*res, string(cur))
+		return
+	}
+
+	for i := start; i < len(digits); i++ {
+		v, ok := dic[digits[i]]
+		if ok {
+			for j := 0; j < len(v); j++ {
+				cur = append(cur, v[j])
+				backtrack(digits, cur, i+1, dic, res)
+				cur = cur[:len(cur)-1]
+			}
+		}
+	}
 }
 
 func main() {
