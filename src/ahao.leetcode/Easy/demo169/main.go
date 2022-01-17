@@ -12,7 +12,7 @@ func majorityElement(nums []int) int {
 	threshold := 1 + len(nums)/2
 	m := make(map[int]int)
 	for i := 0; i < len(nums); i++ {
-		val, ok := m[nums[k]]
+		val, ok := m[nums[i]]
 		if ok {
 			val++
 			if val >= threshold {
