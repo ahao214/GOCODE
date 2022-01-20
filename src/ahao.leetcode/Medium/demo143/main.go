@@ -28,7 +28,7 @@ func reorderList(head *ListNode) {
 	//cut in half
 	second := slow.Next
 	slow.Next = nil
-	//reverse second hald
+	//reverse second half
 	var pre *ListNode
 	for second != nil {
 		nxt := second.Next
