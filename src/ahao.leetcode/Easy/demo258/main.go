@@ -15,3 +15,8 @@ func addDigits(num int) int {
 	}
 	return num
 }
+
+//数学
+func addDigits2(num int) int {
+	return (num-1)%9 + 1
+}
