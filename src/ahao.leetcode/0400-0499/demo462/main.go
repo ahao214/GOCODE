@@ -83,7 +83,7 @@ func quickSelect(a []int, l, r, index int) int {
 }
 
 func minMoves22(nums []int) (ans int) {
-	rand.Seed(time.Now().UnixNano())
+	rand.Seed(Now().UnixNano())
 	x := quickSelect(nums, 0, len(nums)-1, len(nums)/2)
 	for _, num := range nums {
 		ans += abs(num - x)
